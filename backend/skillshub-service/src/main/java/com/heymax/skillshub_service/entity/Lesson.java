@@ -33,6 +33,9 @@ public class Lesson {
     private LocalDateTime dateTime;
 
     @Column(nullable = false)
+    private LocalDateTime endDateTime;
+
+    @Column(nullable = false)
     private Boolean isOnline;
 
     private String location;
