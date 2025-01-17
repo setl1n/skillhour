@@ -35,7 +35,7 @@ public class UsersMicroserviceApplication {
             userRepository.save(user1);
 
             User user2 = new User();
-            user2.setUsername("Jane Smith");
+            user2.setUsername("John Doe");
             user2.setEmail("john@example.com");
             user2.setPassword(passwordEncoder.encode("password"));
             user2.setTimeCred(10);
