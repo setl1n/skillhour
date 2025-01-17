@@ -33,4 +33,14 @@ public class LessonService {
     public List<Lesson> getLessonsByStudent(Long studentId) {
         return lessonRepository.findByStudentIdsContaining(studentId);
     }
+
+    public Lesson enrollStudent(Long lessonId, Long studentId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new RuntimeException("Lesson not found"));
+        if (lesson.getStudentIds().size() >= lesson.getMaxCapacity()) {
+            throw new RuntimeException("Lesson is at full capacity");
+        }
+        lesson.getStudentIds().add(studentId);
+        return lessonRepository.save(lesson);
+    }
 }

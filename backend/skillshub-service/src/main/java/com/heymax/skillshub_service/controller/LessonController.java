@@ -47,4 +47,9 @@ public class LessonController {
     public ResponseEntity<List<Lesson>> getLessonsByStudent(@PathVariable Long studentId) {
         return ResponseEntity.ok(lessonService.getLessonsByStudent(studentId));
     }
+
+    @PostMapping("/{lessonId}/enroll/{studentId}")
+    public ResponseEntity<Lesson> enrollStudent(@PathVariable Long lessonId, @PathVariable Long studentId) {
+        return ResponseEntity.ok(lessonService.enrollStudent(lessonId, studentId));
+    }
 }
