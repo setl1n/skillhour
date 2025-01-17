@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import userService, { LoginCredentials, RegisterCredentials, UserResponse, User } from '../../services/UserService';
 
 interface AuthState {
@@ -47,6 +47,7 @@ export const loginAsync = createAsyncThunk<User, LoginCredentials>(
             };
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(userData));
+            userService.setToken(response.token); // Set token in userService
             return userData;
         } catch (error) {
             return rejectWithValue((error as Error).message);
@@ -60,6 +61,7 @@ export const logoutAsync = createAsyncThunk(
         try {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
+            userService.setToken(null); // Clear token in userService
         } catch (error) {
             return rejectWithValue((error as Error).message);
         }
@@ -72,6 +74,12 @@ const authSlice = createSlice({
     reducers: {
         clearError: (state) => {
             state.error = null;
+        },
+        updateTimeCredits: (state, action: PayloadAction<number>) => {
+            if (state.user) {
+                state.user.timeCred = action.payload;
+                localStorage.setItem('user', JSON.stringify(state.user));
+            }
         },
     },
     extraReducers: (builder) => {
@@ -112,5 +120,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { clearError } = authSlice.actions;
+export const { clearError, updateTimeCredits } = authSlice.actions;
 export default authSlice.reducer;

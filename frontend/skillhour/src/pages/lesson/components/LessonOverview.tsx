@@ -1,12 +1,23 @@
 import { FaMapMarkerAlt, FaClock, FaUsers, FaCoins } from 'react-icons/fa';
 import { Lesson } from '../../../services/SkillshubService';
 import { calculateTimeCreds } from '../../../utils/timeUtils';
+import userService from '../../../services/UserService';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { useTypedDispatch } from '../../../hooks/useTypedDispatch';
+import { updateTimeCredits } from '../../../store/auth/authSlice';
 
 interface LessonOverviewProps {
     lesson: Lesson;
+    onEnrollmentSuccess: (userId: number) => void;
 }
 
-const LessonOverview = ({ lesson }: LessonOverviewProps) => {
+const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) => {
+    const [enrolling, setEnrolling] = useState(false);
+    const dispatch = useTypedDispatch();
+    const user = useSelector((state: RootState) => state.auth.user);
+
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             weekday: 'long',
@@ -16,6 +27,32 @@ const LessonOverview = ({ lesson }: LessonOverviewProps) => {
             hour: 'numeric',
             minute: '2-digit',
         });
+    };
+
+    const handleEnroll = async () => {
+        if (!user?.id) {
+            alert('User not logged in');
+            return;
+        }
+
+        setEnrolling(true);
+        try {
+            const cost = calculateTimeCreds(lesson.dateTime, lesson.endDateTime);
+            await userService.enrollInLesson(user.id, lesson.id.toString(), cost);
+            
+            // Update time credits in Redux store
+            dispatch(updateTimeCredits(user.timeCred - cost));
+            
+            // Update lesson enrollment
+            onEnrollmentSuccess(Number(user.id));
+            
+            alert('Enrollment successful');
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+            alert('Enrollment failed: ' + errorMessage);
+        } finally {
+            setEnrolling(false);
+        }
     };
 
     return (
@@ -65,8 +102,12 @@ const LessonOverview = ({ lesson }: LessonOverviewProps) => {
                     </div>
                 </div>
 
-                <button className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors mt-6">
-                    Enroll in Class
+                <button 
+                    className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors mt-6"
+                    onClick={handleEnroll}
+                    disabled={enrolling}
+                >
+                    {enrolling ? 'Enrolling...' : 'Enroll in Class'}
                 </button>
             </div>
         </div>

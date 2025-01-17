@@ -55,6 +55,7 @@ export interface Reviews {
 class UserService {
     private baseUrl: string;
     private static instance: UserService;
+    private token: string | null = null;
 
     private constructor() {
         this.baseUrl = 'http://localhost:8080/api';
@@ -67,23 +68,31 @@ class UserService {
         return UserService.instance;
     }
 
+    public setToken(token: string | null) {
+        this.token = token;
+    }
+
     private async request<T>(endpoint: string, options: RequestInit): Promise<T> {
         try {
             const response = await fetch(`${this.baseUrl}${endpoint}`, {
                 ...options,
                 headers: {
                     'Content-Type': 'application/json',
+                    ...(this.token ? { 'Authorization': `Bearer ${this.token}` } : {}),
                     ...options.headers,
                 },
             });
             
-            const data = await response.json();
+            const contentType = response.headers.get('content-type');
+            const data = contentType?.includes('application/json') 
+                ? await response.json()
+                : await response.text();
             
             if (!response.ok) {
-                throw new Error(data.message || 'API request failed');
+                throw new Error(typeof data === 'string' ? data : data.message || 'API request failed');
             }
 
-            return data;
+            return data as T;
         } catch (error) {
             throw error instanceof Error ? error : new Error('Network error');
         }
@@ -112,6 +121,12 @@ class UserService {
     public async getUser(userId: string): Promise<User> {
         return this.request<User>(`/users/${userId}`, {
             method: 'GET',
+        });
+    }
+
+    public async enrollInLesson(userId: string, lessonId: string, cost: number): Promise<void> {
+        return this.request<void>(`/users/${userId}/enroll?lessonId=${lessonId}&cost=${cost}`, {
+            method: 'POST',
         });
     }
 }
