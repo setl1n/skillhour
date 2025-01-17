@@ -11,6 +11,7 @@ export interface Lesson {
     isOnline: boolean;
     location: string;
     studentIds: number[];
+    state: 'FUTURE' | 'IN_PROGRESS' | 'ENDED';
 }
 
 class SkillshubService {
@@ -54,6 +55,21 @@ class SkillshubService {
         }
         const lesson: Lesson = await response.json();
         // Fetch instructor details and enhance lesson object
+        const instructor = await userService.getUser(String(lesson.instructorId));
+        return {
+            ...lesson,
+            instructor
+        };
+    }
+
+    public async updateLessonState(lessonId: number, state: 'FUTURE' | 'IN_PROGRESS' | 'ENDED'): Promise<Lesson> {
+        const response = await fetch(`${this.baseUrl}/lessons/${lessonId}/state/${state}`, {
+            method: 'POST',
+        });
+        if (!response.ok) {
+            throw new Error('Failed to update lesson state');
+        }
+        const lesson: Lesson = await response.json();
         const instructor = await userService.getUser(String(lesson.instructorId));
         return {
             ...lesson,
