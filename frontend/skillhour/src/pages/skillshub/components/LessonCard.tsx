@@ -35,7 +35,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                                     {lesson.skillTaught}
                                 </h3>
                                 <p className="text-sm text-text/60 mt-1">
-                                    Hosted by: Instructor #{lesson.instructorId}
+                                    Hosted by: {lesson.instructor?.username}
                                 </p>
                             </div>
                             <span className={`px-3 py-1 rounded-lg text-sm font-medium ${

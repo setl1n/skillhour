@@ -1,6 +1,9 @@
+import userService, { User } from "./UserService";
+
 export interface Lesson {
     id: number;
     instructorId: number;
+    instructor?: User;  // Replace instructorName with instructor object
     maxCapacity: number;
     skillTaught: string;
     dateTime: string;
@@ -30,7 +33,18 @@ class SkillshubService {
         if (!response.ok) {
             throw new Error('Failed to fetch lessons');
         }
-        return response.json();
+        const lessons: Lesson[] = await response.json();
+        // Fetch all instructor details in parallel
+        const enhancedLessons = await Promise.all(
+            lessons.map(async (lesson) => {
+                const instructor = await userService.getUser(String(lesson.instructorId));
+                return {
+                    ...lesson,
+                    instructor
+                };
+            })
+        );
+        return enhancedLessons;
     }
 
     public async getLessonById(id: number): Promise<Lesson> {
@@ -38,7 +52,13 @@ class SkillshubService {
         if (!response.ok) {
             throw new Error('Failed to fetch lesson');
         }
-        return response.json();
+        const lesson: Lesson = await response.json();
+        // Fetch instructor details and enhance lesson object
+        const instructor = await userService.getUser(String(lesson.instructorId));
+        return {
+            ...lesson,
+            instructor
+        };
     }
 }
 

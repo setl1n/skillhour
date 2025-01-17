@@ -77,7 +77,9 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
                     }`}>
                         {lesson.isOnline ? '🌐 Online Class' : '📍 In-Person Class'}
                     </span>
-                    <span className="text-text/60">Instructor #{lesson.instructorId}</span>
+                    <span className="text-text/60">
+                        Instructor: {lesson.instructor?.username}
+                    </span>
                 </div>
 
                 <div className="space-y-4 text-lg">
