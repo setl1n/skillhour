@@ -1,5 +1,6 @@
-import { FaMapMarkerAlt, FaClock, FaUsers } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaClock, FaUsers, FaCoins } from 'react-icons/fa';
 import { Lesson } from '../../../services/SkillshubService';
+import { calculateTimeCreds } from '../../../utils/timeUtils';
 
 interface LessonOverviewProps {
     lesson: Lesson;
@@ -44,6 +45,13 @@ const LessonOverview = ({ lesson }: LessonOverviewProps) => {
                                 })}
                             </div>
                         </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                        <FaCoins className="text-amber-600" />
+                        <span className="text-amber-600 font-medium">
+                            {calculateTimeCreds(lesson.dateTime, lesson.endDateTime)} TimeCreds
+                        </span>
                     </div>
 
                     <div className="flex items-center gap-3">
