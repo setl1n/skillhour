@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
     @Autowired
@@ -19,19 +19,18 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         return ResponseEntity.ok(userService.createUser(user));
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(userService.authenticate(loginRequest));
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
-        String token = jwtUtil.getTokenFromHeader(authHeader);
-        return ResponseEntity.ok(userService.getCurrentUser(token));
+    @GetMapping("/users/{userId}/reviews")
+    public ResponseEntity<?> getUserReviews(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getUserReviews(userId));
     }
 }

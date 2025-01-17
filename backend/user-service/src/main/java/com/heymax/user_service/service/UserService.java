@@ -1,13 +1,17 @@
 package com.heymax.user_service.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.heymax.user_service.dto.LoginRequest;
 import com.heymax.user_service.dto.LoginResponse;
 import com.heymax.user_service.entity.User;
 import com.heymax.user_service.repository.UserRepository;
 import com.heymax.user_service.security.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -47,5 +51,12 @@ public class UserService {
         String email = jwtUtil.getUsernameFromToken(token);
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public Map<String, Object> getUserReviews(Long userId) {
+        Map<String, Object> reviews = new HashMap<>();
+        reviews.put("teacherReviews", userRepository.findTeacherReviewsByUserId(userId));
+        reviews.put("studentReviews", userRepository.findStudentReviewsByUserId(userId));
+        return reviews;
     }
 }
