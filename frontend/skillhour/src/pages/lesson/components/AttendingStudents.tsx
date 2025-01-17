@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import userService, { User } from '../../../services/UserService';
+import userService, { User , StudentReview } from '../../../services/UserService';
 import { RootState } from '../../../store/store';
 import StudentReviewModal from './StudentReviewModal';
-
 interface AttendingStudentsProps {
     studentIds: number[];
     lessonState: 'FUTURE' | 'IN_PROGRESS' | 'ENDED';

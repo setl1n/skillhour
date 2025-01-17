@@ -40,7 +40,7 @@ public class UserService {
             throw new RuntimeException("Invalid password");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getEmail(),user.getId());
 
         return LoginResponse.builder()
                 .id(user.getId().toString())

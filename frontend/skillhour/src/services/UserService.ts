@@ -52,6 +52,13 @@ export interface Reviews {
     studentReviews: StudentReview[];
 }
 
+export interface StudentReviewSubmission {
+    overallScore: number;
+    attentiveScore: number;
+    participationScore: number;
+    comments: string;
+}
+
 class UserService {
     private baseUrl: string;
     private static instance: UserService;
@@ -127,6 +134,13 @@ class UserService {
     public async enrollInLesson(userId: string, lessonId: string, cost: number): Promise<void> {
         return this.request<void>(`/users/${userId}/enroll?lessonId=${lessonId}&cost=${cost}`, {
             method: 'POST',
+        });
+    }
+
+    public async createStudentReview(userId: string, review: StudentReviewSubmission): Promise<StudentReview> {
+        return this.request<StudentReview>(`/reviews/student/${userId}`, {
+            method: 'POST',
+            body: JSON.stringify(review),
         });
     }
 }
