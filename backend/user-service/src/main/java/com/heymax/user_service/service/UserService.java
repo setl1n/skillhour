@@ -44,6 +44,7 @@ public class UserService {
                 .name(user.getUsername())
                 .email(user.getEmail())
                 .token(token)
+                .timeCred(user.getTimeCred())
                 .build();
     }
 
