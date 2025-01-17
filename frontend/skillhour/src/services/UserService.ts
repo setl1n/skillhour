@@ -14,6 +14,7 @@ export interface UserResponse {
     name: string;
     email: string;
     token: string;
+    timeCred: number;
 }
 
 export interface TeacherReview {

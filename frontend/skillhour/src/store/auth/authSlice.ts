@@ -8,6 +8,7 @@ interface AuthState {
         name: string;
         email: string;
         token?: string;
+        timeCred: number;
     } | null;
     loading: boolean;
     error: string | null;
@@ -48,7 +49,8 @@ export const loginAsync = createAsyncThunk<UserResponse, LoginCredentials>(
                 id: response.id,
                 name: response.name,
                 email: response.email,
-                token: response.token
+                token: response.token,
+                timeCred: response.timeCred
             };
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(userData));

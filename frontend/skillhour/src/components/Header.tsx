@@ -4,12 +4,15 @@ import { useSelector } from 'react-redux';
 import { useTypedDispatch } from '../hooks/useTypedDispatch';
 import { RootState } from '../store/store';
 import { logoutAsync } from '../store/auth/authSlice';
+import { FaHourglassHalf } from 'react-icons/fa';
+import { useState } from 'react';
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+  const [isTooltipVisible, setTooltipVisible] = useState(false);
 
   const navLinks = [
     { path: '/', label: 'SkillsHub' },
@@ -52,15 +55,35 @@ const Header = () => {
 
           {/* Right side items */}
           <div className="flex items-center space-x-4">
-            {isAuthenticated && (
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md 
-                  transition-colors duration-200 hover:bg-red-600 focus:outline-none focus:ring-2 
-                  focus:ring-red-500 focus:ring-offset-2"
-              >
-                Logout
-              </button>
+            {isAuthenticated && user && (
+              <>
+                <div 
+                  className="relative flex items-center space-x-2"
+                  onMouseEnter={() => setTooltipVisible(true)}
+                  onMouseLeave={() => setTooltipVisible(false)}
+                >
+                  <FaHourglassHalf className="text-accent" />
+                  <span className="text-sm font-medium">{user.timeCred} TimeCreds</span>
+                  {isTooltipVisible && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-full mt-2 px-2 py-1 text-xs text-white bg-black rounded"
+                    >
+                      Time Creds, your remaining currency
+                    </motion.div>
+                  )}
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md 
+                    transition-colors duration-200 hover:bg-red-600 focus:outline-none focus:ring-2 
+                    focus:ring-red-500 focus:ring-offset-2"
+                >
+                  Logout
+                </button>
+              </>
             )}
             <Link
               to="/profile"
