@@ -24,6 +24,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private SkillshubService skillshubService;
+
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -64,5 +67,28 @@ public class UserService {
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public void enrollInLesson(Long userId, Long lessonId, int cost) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getTimeCred() < cost) {
+            throw new RuntimeException("Insufficient time credits");
+        }
+
+        // Deduct time credits
+        user.setTimeCred(user.getTimeCred() - cost);
+        userRepository.save(user);
+
+        try {
+            // Call to skillshub microservice to enroll the student
+            skillshubService.enrollStudent(lessonId, userId);
+        } catch (Exception e) {
+            // If enrollment fails, rollback the time credits deduction
+            user.setTimeCred(user.getTimeCred() + cost);
+            userRepository.save(user);
+            throw new RuntimeException("Enrollment failed: " + e.getMessage());
+        }
     }
 }

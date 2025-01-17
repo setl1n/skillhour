@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:5173")
@@ -37,5 +40,13 @@ public class UserController {
     @GetMapping("/users/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.getUserById(userId));
+    }
+
+    @PostMapping("/users/{userId}/enroll")
+    public ResponseEntity<Map<String, String>> enrollInLesson(@PathVariable Long userId, @RequestParam Long lessonId, @RequestParam int cost) {
+        userService.enrollInLesson(userId, lessonId, cost);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Enrollment successful");
+        return ResponseEntity.ok(response);
     }
 }
