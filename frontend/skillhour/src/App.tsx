@@ -1,11 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 import Header from './components/Header';
-import SkillsHub from './pages/SkillsHub';
-
+import SkillsHub from './pages/skillshub/SkillsHub';
+import Profile from './pages/profile/Profile';
 
 function App() {
   return (
+    <Provider store={store}>
       <div>
         <Router>
           <div className="flex flex-col min-h-screen bg-background text-text">
@@ -18,6 +21,7 @@ function App() {
                     element={
                         <Routes>
                           <Route path="/" element={<SkillsHub />} />
+                          <Route path="/profile" element={<Profile />} />
                         </Routes>
                     }
                   />
@@ -27,6 +31,7 @@ function App() {
           </div>
         </Router>
       </div>
+    </Provider>
   )
 }
 
