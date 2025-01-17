@@ -1,4 +1,4 @@
-package com.heymax.skillhour.marketplace_service;
+package com.heymax.skillshub_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
