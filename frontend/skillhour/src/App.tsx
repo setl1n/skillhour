@@ -5,6 +5,7 @@ import { store } from './store/store';
 import Header from './components/Header';
 import SkillsHub from './pages/skillshub/SkillsHub';
 import Profile from './pages/profile/Profile';
+import Lesson from './pages/lesson/Lesson';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
                         <Routes>
                           <Route path="/" element={<SkillsHub />} />
                           <Route path="/profile" element={<Profile />} />
+                          <Route path="/lesson/:id" element={<Lesson />} />
                         </Routes>
                     }
                   />

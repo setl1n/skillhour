@@ -32,6 +32,14 @@ class SkillshubService {
         }
         return response.json();
     }
+
+    public async getLessonById(id: number): Promise<Lesson> {
+        const response = await fetch(`${this.baseUrl}/lessons/${id}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch lesson');
+        }
+        return response.json();
+    }
 }
 
 export const skillshubService = SkillshubService.getInstance();

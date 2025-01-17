@@ -1,12 +1,15 @@
 import { motion } from 'framer-motion';
 import { FaMapMarkerAlt, FaClock, FaUsers } from 'react-icons/fa';
 import { Lesson } from '../../../services/SkillshubService';
+import { useNavigate } from 'react-router-dom';
 
 interface LessonCardProps {
     lesson: Lesson;
 }
 
 const LessonCard = ({ lesson }: LessonCardProps) => {
+    const navigate = useNavigate();
+
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             month: 'short',
@@ -16,14 +19,11 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
         });
     };
 
-    const duration = Math.round(
-        (new Date(lesson.endDateTime).getTime() - new Date(lesson.dateTime).getTime()) / (1000 * 60)
-    );
-
     return (
         <motion.div
             className="h-full w-full"
             whileHover={{ y: -5 }}
+            onClick={() => navigate(`/lesson/${lesson.id}`)}
         >
             <div className="bg-surface/30 backdrop-blur-md rounded-xl shadow-sm overflow-hidden cursor-pointer hover:bg-surface/40 transition-colors h-full">
                 <div className="p-6 h-full flex flex-col">
