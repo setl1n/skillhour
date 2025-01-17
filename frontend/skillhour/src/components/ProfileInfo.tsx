@@ -38,7 +38,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
                 </div>
                 
                 <Card className="flex-grow">
-                    <h2 className="text-2xl font-bold mb-4">{user.name}</h2>
+                    <h2 className="text-2xl font-bold mb-4">{user.username}</h2>
                     <div className="space-y-2">
                         <p><strong>Teaches:</strong> JavaScript, React, TypeScript</p>
                         <p><strong>Interested in:</strong> Python, Machine Learning</p>

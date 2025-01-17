@@ -40,7 +40,7 @@ export const loginAsync = createAsyncThunk<User, LoginCredentials>(
             const response = await userService.login(credentials);
             const userData: User = {
                 id: response.id,
-                name: response.name,
+                username: response.username,
                 email: response.email,
                 token: response.token,
                 timeCred: response.timeCred

@@ -41,7 +41,7 @@ public class UserService {
 
         return LoginResponse.builder()
                 .id(user.getId().toString())
-                .name(user.getUsername())
+                .username(user.getUsername())
                 .email(user.getEmail())
                 .token(token)
                 .timeCred(user.getTimeCred())

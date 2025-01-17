@@ -11,7 +11,7 @@ export interface RegisterCredentials {
 
 export interface UserResponse {
     id: string;
-    name: string;
+    username: string;
     email: string;
     token: string;
     timeCred: number;
