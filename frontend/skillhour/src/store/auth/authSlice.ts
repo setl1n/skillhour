@@ -4,6 +4,7 @@ import userService, { LoginCredentials, RegisterCredentials, UserResponse } from
 interface AuthState {
     isAuthenticated: boolean;
     user: {
+        id: string;
         name: string;
         email: string;
         token?: string;
@@ -42,8 +43,15 @@ export const loginAsync = createAsyncThunk<UserResponse, LoginCredentials>(
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await userService.login(credentials);
+            // Ensure we're storing all user data including ID
+            const userData = {
+                id: response.id,
+                name: response.name,
+                email: response.email,
+                token: response.token
+            };
             localStorage.setItem('token', response.token);
-            localStorage.setItem('user', JSON.stringify(response));
+            localStorage.setItem('user', JSON.stringify(userData));
             return response;
         } catch (error) {
             return rejectWithValue((error as Error).message);

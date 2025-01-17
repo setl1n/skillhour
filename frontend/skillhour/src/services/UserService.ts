@@ -16,6 +16,40 @@ export interface UserResponse {
     token: string;
 }
 
+export interface TeacherReview {
+    id: number;
+    overallScore: number;
+    knowledgeScore: number;
+    deliveryScore: number;
+    comments: string;
+    givenBy: number;
+    user?: User;  // Optional because of @JsonBackReference
+}
+
+export interface StudentReview {
+    id: number;
+    overallScore: number;
+    attentiveScore: number;
+    participationScore: number;
+    comments: string;
+    givenBy: number;
+    user?: User;  // Optional because of @JsonBackReference
+}
+
+export interface User {
+    id: number;
+    username: string;
+    email: string;
+    timeCred: number;
+    studentReviews?: StudentReview[];  // Optional to break circular reference
+    teacherReviews?: TeacherReview[];  // Optional to break circular reference
+}
+
+export interface Reviews {
+    teacherReviews: TeacherReview[];
+    studentReviews: StudentReview[];
+}
+
 class UserService {
     private baseUrl: string;
     private static instance: UserService;
@@ -64,6 +98,12 @@ class UserService {
         return this.request<UserResponse>('/auth/login', {
             method: 'POST',
             body: JSON.stringify(credentials),
+        });
+    }
+
+    public async getUserReviews(userId: string): Promise<Reviews> {
+        return this.request<Reviews>(`/users/${userId}/reviews`, {
+            method: 'GET',
         });
     }
 }
