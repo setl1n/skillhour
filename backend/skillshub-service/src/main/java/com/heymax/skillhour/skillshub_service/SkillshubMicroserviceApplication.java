@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MarketplaceMicroserviceApplication {
+public class SkillshubMicroserviceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MarketplaceMicroserviceApplication.class, args);
+		SpringApplication.run(SkillshubMicroserviceApplication.class, args);
 	}
 
 }

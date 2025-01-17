@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.heymax.skillhour</groupId>
-	<artifactId>marketplace-service</artifactId>
+	<artifactId>skillshub-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Marketplace Microservice</name>
-	<description>Marketplace Microservice for SkillHours</description>
+	<name>Skillshub Microservice</name>
+	<description>Skillshub Microservice for SkillHours</description>
 	<url/>
 	<licenses>
 		<license/>
