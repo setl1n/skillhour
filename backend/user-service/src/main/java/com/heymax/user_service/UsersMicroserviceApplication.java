@@ -28,15 +28,15 @@ public class UsersMicroserviceApplication {
         return args -> {
             // Create users
             User user1 = new User();
-            user1.setUsername("John Doe");
-            user1.setEmail("john@example.com");
+            user1.setUsername("Jane Smith");
+            user1.setEmail("jane@example.com");
             user1.setPassword(passwordEncoder.encode("password"));
             user1.setTimeCred(10);
             userRepository.save(user1);
 
             User user2 = new User();
             user2.setUsername("Jane Smith");
-            user2.setEmail("jane@example.com");
+            user2.setEmail("john@example.com");
             user2.setPassword(passwordEncoder.encode("password"));
             user2.setTimeCred(10);
             userRepository.save(user2);

@@ -26,8 +26,7 @@ public class SkillshubMicroserviceApplication {
             lesson1.setInstructorId(1L);
             lesson1.setMaxCapacity(5);
             lesson1.setSkillTaught("Data Analytics with Pandas");
-            LocalDateTime startTime1 = LocalDateTime.now().plusDays(1)
-                .withHour(10).withMinute(0).withSecond(0).withNano(0);  // 10:00
+            LocalDateTime startTime1 = LocalDateTime.now().plusMinutes(15);
             lesson1.setDateTime(startTime1);
             lesson1.setEndDateTime(startTime1.plusHours(2));  // 12:00
             lesson1.setIsOnline(true);
