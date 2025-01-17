@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.heymax.skillshub_service.entity.Lesson;
+import com.heymax.skillshub_service.entity.LessonState;
 import com.heymax.skillshub_service.service.LessonService;
 
 @RestController
@@ -51,5 +52,12 @@ public class LessonController {
     @PostMapping("/{lessonId}/enroll/{studentId}")
     public ResponseEntity<Lesson> enrollStudent(@PathVariable Long lessonId, @PathVariable Long studentId) {
         return ResponseEntity.ok(lessonService.enrollStudent(lessonId, studentId));
+    }
+
+    @PostMapping("/{lessonId}/state/{state}")
+    public ResponseEntity<Lesson> updateLessonState(
+            @PathVariable Long lessonId,
+            @PathVariable LessonState state) {
+        return ResponseEntity.ok(lessonService.updateLessonState(lessonId, state));
     }
 }

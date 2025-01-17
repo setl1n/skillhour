@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heymax.skillshub_service.entity.Lesson;
+import com.heymax.skillshub_service.entity.LessonState;
 import com.heymax.skillshub_service.repository.LessonRepository;
 
 @Service
@@ -41,6 +42,13 @@ public class LessonService {
             throw new RuntimeException("Lesson is at full capacity");
         }
         lesson.getStudentIds().add(studentId);
+        return lessonRepository.save(lesson);
+    }
+
+    public Lesson updateLessonState(Long lessonId, LessonState newState) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new RuntimeException("Lesson not found"));
+        lesson.setState(newState);
         return lessonRepository.save(lesson);
     }
 }
