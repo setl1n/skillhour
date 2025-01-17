@@ -55,6 +55,7 @@ const Lesson = () => {
                     <AttendingStudents 
                         key={lesson.studentIds.length} // Force re-render when studentIds changes
                         studentIds={lesson.studentIds} 
+                        lessonState={lesson.state}
                     />
                 </div>
             </div>

@@ -1,13 +1,21 @@
 import { useEffect, useState } from 'react';
-import userService, { StudentReview, User } from '../../../services/UserService';
+import { useSelector } from 'react-redux';
+import userService, { User } from '../../../services/UserService';
+import { RootState } from '../../../store/store';
+import StudentReviewModal from './StudentReviewModal';
 
 interface AttendingStudentsProps {
     studentIds: number[];
+    lessonState: 'FUTURE' | 'IN_PROGRESS' | 'ENDED';
 }
 
-const AttendingStudents = ({ studentIds }: AttendingStudentsProps) => {
+const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) => {
     const [students, setStudents] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
+    const [selectedStudent, setSelectedStudent] = useState<User | null>(null);
+    const user = useSelector((state: RootState) => state.auth.user);
+    const currentLesson = useSelector((state: RootState) => state.lesson.currentLesson);
+    const isInstructor = user && currentLesson?.instructorId === Number(user.id);
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -29,6 +37,11 @@ const AttendingStudents = ({ studentIds }: AttendingStudentsProps) => {
         if (reviews.length === 0) return null;
         const totalScore = reviews.reduce((sum, review) => sum + review.overallScore, 0);
         return totalScore / reviews.length;
+    };
+
+    const handleReviewStudent = async (studentId: string) => {
+        // TODO: Implement review confirmation logic
+        console.log('Reviewing student:', studentId);
     };
 
     return (
@@ -60,11 +73,28 @@ const AttendingStudents = ({ studentIds }: AttendingStudentsProps) => {
                                         </div>
                                     )}
                                 </div>
+                                {isInstructor && lessonState === 'ENDED' && (
+                                    <button
+                                        onClick={() => setSelectedStudent(student)}
+                                        className="px-3 py-1 text-sm bg-primary text-white rounded-md 
+                                                 hover:bg-primary/90 transition-colors"
+                                    >
+                                        Review Student
+                                    </button>
+                                )}
                             </div>
                         );
                     })
                 )}
             </div>
+            {selectedStudent && (
+                <StudentReviewModal
+                    isOpen={!!selectedStudent}
+                    onClose={() => setSelectedStudent(null)}
+                    student={selectedStudent}
+                    onConfirm={handleReviewStudent}
+                />
+            )}
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import { FaMapMarkerAlt, FaClock, FaUsers, FaCoins } from 'react-icons/fa';
-import skillshubService, { Lesson } from '../../../services/SkillshubService';
+import { Lesson } from '../../../services/SkillshubService';
 import { calculateTimeCreds } from '../../../utils/timeUtils';
 import userService from '../../../services/UserService';
 import { useState, useEffect } from 'react';
@@ -8,6 +8,7 @@ import { RootState } from '../../../store/store';
 import { useTypedDispatch } from '../../../hooks/useTypedDispatch';
 import { updateTimeCredits } from '../../../store/auth/authSlice';
 import { setCurrentLesson } from '../../../store/lesson/lessonSlice';
+import InstructorControls from './InstructorControls';
 
 interface LessonOverviewProps {
     lesson: Lesson;
@@ -68,56 +69,12 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
         }
     };
 
-    const handleLessonStateUpdate = async (newState: 'FUTURE' | 'IN_PROGRESS' | 'ENDED') => {
-        try {
-            const updatedLesson = await skillshubService.updateLessonState(displayLesson.id, newState);
-            dispatch(setCurrentLesson(updatedLesson));
-        } catch (error: unknown) {
-            const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-            alert('Failed to update lesson state: ' + errorMessage);
-        }
-    };
-
     const canMarkAttendance = () => {
         const lessonTime = new Date(displayLesson.dateTime);
         const now = new Date();
         const timeDifference = lessonTime.getTime() - now.getTime();
         const fifteenMinutesInMs = 15 * 60 * 1000;
         return timeDifference <= fifteenMinutesInMs && timeDifference > 0;
-    };
-
-    const renderInstructorControls = () => {
-        if (!isInstructor) return null;
-
-        switch (displayLesson.state) {
-            case 'FUTURE':
-                return (
-                    <button
-                        className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors"
-                        onClick={() => handleLessonStateUpdate('IN_PROGRESS')}
-                    >
-                        Start Lesson
-                    </button>
-                );
-            case 'IN_PROGRESS':
-                return (
-                    <button
-                        className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition-colors"
-                        onClick={() => handleLessonStateUpdate('ENDED')}
-                    >
-                        End Lesson
-                    </button>
-                );
-            case 'ENDED':
-                return (
-                    <button
-                        className="w-full bg-gray-500 text-white py-3 rounded-lg cursor-not-allowed"
-                        disabled
-                    >
-                        Lesson Ended
-                    </button>
-                );
-        }
     };
 
     const renderActionButton = () => {
@@ -130,7 +87,7 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
         }
 
         if (isInstructor) {
-            return renderInstructorControls();
+            return <InstructorControls lesson={displayLesson} />;
         }
 
         // Student view based on lesson state
