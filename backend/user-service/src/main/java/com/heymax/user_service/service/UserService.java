@@ -60,4 +60,9 @@ public class UserService {
         reviews.put("studentReviews", userRepository.findStudentReviewsByUserId(userId));
         return reviews;
     }
+
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }

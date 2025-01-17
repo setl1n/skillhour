@@ -33,4 +33,9 @@ public class UserController {
     public ResponseEntity<?> getUserReviews(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.getUserReviews(userId));
     }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getUserById(userId));
+    }
 }
