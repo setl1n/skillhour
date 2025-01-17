@@ -18,6 +18,8 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
     const dispatch = useTypedDispatch();
     const user = useSelector((state: RootState) => state.auth.user);
 
+    const isUserEnrolled = user && lesson.studentIds.includes(Number(user.id));
+
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             weekday: 'long',
@@ -53,6 +55,14 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
         } finally {
             setEnrolling(false);
         }
+    };
+
+    const canMarkAttendance = () => {
+        const lessonTime = new Date(lesson.dateTime);
+        const now = new Date();
+        const timeDifference = lessonTime.getTime() - now.getTime();
+        const fifteenMinutesInMs = 15 * 60 * 1000;
+        return timeDifference <= fifteenMinutesInMs && timeDifference > 0;
     };
 
     return (
@@ -102,13 +112,28 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
                     </div>
                 </div>
 
-                <button 
-                    className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors mt-6"
-                    onClick={handleEnroll}
-                    disabled={enrolling}
-                >
-                    {enrolling ? 'Enrolling...' : 'Enroll in Class'}
-                </button>
+                {isUserEnrolled ? (
+                    <div className="space-y-2">
+                        <button 
+                            className="w-full bg-green-500 text-white py-3 rounded-lg cursor-default"
+                            disabled
+                        >
+                            You're Currently Enrolled
+                        </button>
+                        <p className="text-sm text-center text-text/60">
+                            You can mark attendance 15 minutes before the lesson starts
+                            {canMarkAttendance() && " - Ready for attendance!"}
+                        </p>
+                    </div>
+                ) : (
+                    <button 
+                        className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors mt-6"
+                        onClick={handleEnroll}
+                        disabled={enrolling}
+                    >
+                        {enrolling ? 'Enrolling...' : 'Enroll in Class'}
+                    </button>
+                )}
             </div>
         </div>
     );
