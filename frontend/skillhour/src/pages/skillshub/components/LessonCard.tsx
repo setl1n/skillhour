@@ -74,13 +74,6 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                                 <span>{lesson.studentIds.length}/{lesson.maxCapacity} students</span>
                             </div>
                         </div>
-
-                        <motion.button 
-                            className="mt-4 w-full bg-primary/90 text-white py-2 rounded-lg hover:bg-primary transition-colors"
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            Book Now
-                        </motion.button>
                     </div>
                 </div>
             </div>
