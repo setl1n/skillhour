@@ -38,12 +38,13 @@ export interface StudentReview {
 }
 
 export interface User {
-    id: number;
-    username: string;
+    id: string;
+    name: string;
     email: string;
+    token?: string;
     timeCred: number;
-    studentReviews?: StudentReview[];  // Optional to break circular reference
-    teacherReviews?: TeacherReview[];  // Optional to break circular reference
+    studentReviews?: StudentReview[];
+    teacherReviews?: TeacherReview[];
 }
 
 export interface Reviews {

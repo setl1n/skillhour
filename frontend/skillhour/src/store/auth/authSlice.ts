@@ -1,15 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import userService, { LoginCredentials, RegisterCredentials, UserResponse } from '../../services/UserService';
+import userService, { LoginCredentials, RegisterCredentials, UserResponse, User } from '../../services/UserService';
 
 interface AuthState {
     isAuthenticated: boolean;
-    user: {
-        id: string;
-        name: string;
-        email: string;
-        token?: string;
-        timeCred: number;
-    } | null;
+    user: User | null;
     loading: boolean;
     error: string | null;
 }
@@ -39,13 +33,12 @@ export const registerAsync = createAsyncThunk<UserResponse, RegisterCredentials>
     }
 );
 
-export const loginAsync = createAsyncThunk<UserResponse, LoginCredentials>(
+export const loginAsync = createAsyncThunk<User, LoginCredentials>(
     'auth/login',
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await userService.login(credentials);
-            // Ensure we're storing all user data including ID
-            const userData = {
+            const userData: User = {
                 id: response.id,
                 name: response.name,
                 email: response.email,
@@ -54,7 +47,7 @@ export const loginAsync = createAsyncThunk<UserResponse, LoginCredentials>(
             };
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(userData));
-            return response;
+            return userData;
         } catch (error) {
             return rejectWithValue((error as Error).message);
         }
