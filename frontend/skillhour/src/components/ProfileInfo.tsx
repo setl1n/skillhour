@@ -31,7 +31,7 @@ const ProfileInfo = ({ user }: ProfileInfoProps) => {
             <div className="flex gap-6 mb-6">
                 <div className="flex-shrink-0 w-[200px]">
                     <img 
-                        src="https://loremfaces.net/96/id/1.jpg" 
+                        src={`https://loremfaces.net/96/id/${user.id}.jpg`}
                         alt="Profile" 
                         className="w-full h-auto rounded-lg"
                     />
