@@ -39,7 +39,7 @@ export interface StudentReview {
 
 export interface User {
     id: string;
-    name: string;
+    username: string;
     email: string;
     token?: string;
     timeCred: number;
@@ -105,6 +105,12 @@ class UserService {
 
     public async getUserReviews(userId: string): Promise<Reviews> {
         return this.request<Reviews>(`/users/${userId}/reviews`, {
+            method: 'GET',
+        });
+    }
+
+    public async getUser(userId: string): Promise<User> {
+        return this.request<User>(`/users/${userId}`, {
             method: 'GET',
         });
     }
