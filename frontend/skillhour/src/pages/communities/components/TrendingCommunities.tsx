@@ -1,6 +1,25 @@
 import { useEffect, useState } from 'react';
 import communitiesService, { Community } from '../../../services/CommunitiesService';
-import CommunityCard from './CommunityCard';
+import Card from '../../../components/Card';
+
+interface CommunityCardProps {
+    community: Community;
+}
+
+const CommunityCard = ({ community }: CommunityCardProps) => {
+    return (
+        <Card>
+            <h3 className="text-xl font-semibold mb-2">{community.name}</h3>
+            <div className="text-gray-600 mb-4">
+                <p>{community.posts.length} posts</p>
+                <p>{community.lessonIds.length} lessons</p>
+            </div>
+            <button className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition-colors">
+                View Community
+            </button>
+        </Card>
+    );
+};
 
 const TrendingCommunities = () => {
     const [communities, setCommunities] = useState<Community[]>([]);
