@@ -61,13 +61,6 @@ public class LessonController {
         return ResponseEntity.ok(lessonService.updateLessonState(lessonId, state));
     }
 
-    @PostMapping("/{lessonId}/reviewed/{userId}")
-    public ResponseEntity<Lesson> markUserAsReviewed(
-            @PathVariable Long lessonId,
-            @PathVariable Long userId) {
-        return ResponseEntity.ok(lessonService.markUserAsReviewed(lessonId, userId));
-    }
-
     @PostMapping("/{lessonId}/reviewed/student/{studentId}")
     public ResponseEntity<Lesson> markStudentAsReviewed(
             @PathVariable Long lessonId,

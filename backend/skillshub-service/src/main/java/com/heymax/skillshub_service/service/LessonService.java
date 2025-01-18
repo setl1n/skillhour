@@ -52,16 +52,6 @@ public class LessonService {
         return lessonRepository.save(lesson);
     }
 
-    public Lesson markUserAsReviewed(Long lessonId, Long userId) {
-        Lesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new RuntimeException("Lesson not found"));
-        if (!lesson.getReviewedUserIds().contains(userId)) {
-            lesson.getReviewedUserIds().add(userId);
-            return lessonRepository.save(lesson);
-        }
-        return lesson;
-    }
-
     public Lesson markStudentAsReviewed(Long lessonId, Long studentId) {
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new RuntimeException("Lesson not found"));

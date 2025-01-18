@@ -51,11 +51,6 @@ public class Lesson {
     @ElementCollection
     @CollectionTable(name = "lesson_reviewed_users", joinColumns = @JoinColumn(name = "lesson_id"))
     @Column(name = "user_id")
-    private List<Long> reviewedUserIds = new ArrayList<>();
-
-    @ElementCollection
-    @CollectionTable(name = "lesson_reviewed_users", joinColumns = @JoinColumn(name = "lesson_id"))
-    @Column(name = "user_id")
     private List<Long> reviewedStudents = new ArrayList<>();
 
     @ElementCollection
