@@ -2,6 +2,7 @@ package com.heymax.skillshub_service.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -46,6 +47,21 @@ public class Lesson {
     @CollectionTable(name = "lesson_students", joinColumns = @JoinColumn(name = "lesson_id"))
     @Column(name = "student_id")
     private List<Long> studentIds;
+
+    @ElementCollection
+    @CollectionTable(name = "lesson_reviewed_users", joinColumns = @JoinColumn(name = "lesson_id"))
+    @Column(name = "user_id")
+    private List<Long> reviewedUserIds = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "lesson_reviewed_users", joinColumns = @JoinColumn(name = "lesson_id"))
+    @Column(name = "user_id")
+    private List<Long> reviewedStudents = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "lesson_teacher_reviews", joinColumns = @JoinColumn(name = "lesson_id"))
+    @Column(name = "student_reviewer_id")
+    private List<Long> teacherReviewers = new ArrayList<>();
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

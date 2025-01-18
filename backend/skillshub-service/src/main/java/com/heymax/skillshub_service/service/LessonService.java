@@ -51,4 +51,44 @@ public class LessonService {
         lesson.setState(newState);
         return lessonRepository.save(lesson);
     }
+
+    public Lesson markUserAsReviewed(Long lessonId, Long userId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new RuntimeException("Lesson not found"));
+        if (!lesson.getReviewedUserIds().contains(userId)) {
+            lesson.getReviewedUserIds().add(userId);
+            return lessonRepository.save(lesson);
+        }
+        return lesson;
+    }
+
+    public Lesson markStudentAsReviewed(Long lessonId, Long studentId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new RuntimeException("Lesson not found"));
+                
+        if (!lesson.getStudentIds().contains(studentId)) {
+            throw new RuntimeException("Cannot review a student who is not enrolled in this lesson");
+        }
+        
+        if (!lesson.getReviewedStudents().contains(studentId)) {
+            lesson.getReviewedStudents().add(studentId);
+            return lessonRepository.save(lesson);
+        }
+        return lesson;
+    }
+
+    public Lesson markTeacherAsReviewed(Long lessonId, Long studentReviewerId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new RuntimeException("Lesson not found"));
+                
+        if (!lesson.getStudentIds().contains(studentReviewerId)) {
+            throw new RuntimeException("Only enrolled students can review the teacher");
+        }
+        
+        if (!lesson.getTeacherReviewers().contains(studentReviewerId)) {
+            lesson.getTeacherReviewers().add(studentReviewerId);
+            return lessonRepository.save(lesson);
+        }
+        return lesson;
+    }
 }

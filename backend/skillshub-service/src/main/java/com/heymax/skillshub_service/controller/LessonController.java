@@ -60,4 +60,25 @@ public class LessonController {
             @PathVariable LessonState state) {
         return ResponseEntity.ok(lessonService.updateLessonState(lessonId, state));
     }
+
+    @PostMapping("/{lessonId}/reviewed/{userId}")
+    public ResponseEntity<Lesson> markUserAsReviewed(
+            @PathVariable Long lessonId,
+            @PathVariable Long userId) {
+        return ResponseEntity.ok(lessonService.markUserAsReviewed(lessonId, userId));
+    }
+
+    @PostMapping("/{lessonId}/reviewed/student/{studentId}")
+    public ResponseEntity<Lesson> markStudentAsReviewed(
+            @PathVariable Long lessonId,
+            @PathVariable Long studentId) {
+        return ResponseEntity.ok(lessonService.markStudentAsReviewed(lessonId, studentId));
+    }
+
+    @PostMapping("/{lessonId}/reviewed/teacher/{studentReviewerId}")
+    public ResponseEntity<Lesson> markTeacherAsReviewed(
+            @PathVariable Long lessonId,
+            @PathVariable Long studentReviewerId) {
+        return ResponseEntity.ok(lessonService.markTeacherAsReviewed(lessonId, studentReviewerId));
+    }
 }

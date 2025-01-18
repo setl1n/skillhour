@@ -17,7 +17,8 @@ public class TeacherReview {
     private String comments;
     
     private Long givenBy;
-
+    private Long lessonId;  // Add this field
+    
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
