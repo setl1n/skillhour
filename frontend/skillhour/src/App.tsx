@@ -6,6 +6,8 @@ import Header from './components/Header';
 import SkillsHub from './pages/skillshub/SkillsHub';
 import Profile from './pages/profile/Profile';
 import Lesson from './pages/lesson/Lesson';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./utils/axiosSetup.js";
 
 function App() {
@@ -31,6 +33,11 @@ function App() {
                 </Routes>
               </AnimatePresence>
             </main>
+            <ToastContainer
+              position="top-right"
+              theme="dark"
+              limit={3}
+            />
           </div>
         </Router>
       </div>

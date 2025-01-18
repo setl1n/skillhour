@@ -79,7 +79,7 @@ const authSlice = createSlice({
         },
         updateTimeCredits: (state, action: PayloadAction<number>) => {
             if (state.user) {
-                state.user.timeCred = action.payload;
+                state.user.timeCred = action.payload; // Now receiving the total updated amount
                 localStorage.setItem('user', JSON.stringify(state.user));
             }
         },

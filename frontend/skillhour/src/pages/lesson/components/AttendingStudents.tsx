@@ -4,6 +4,9 @@ import userService, { User , StudentReview } from '../../../services/UserService
 import { RootState } from '../../../store/store';
 import { addReviewedStudent } from '../../../store/lesson/lessonSlice';
 import StudentReviewModal from './StudentReviewModal';
+import { updateTimeCredits } from '../../../store/auth/authSlice';
+import { toast } from 'react-toastify';
+
 interface AttendingStudentsProps {
     studentIds: number[];
     lessonState: 'FUTURE' | 'IN_PROGRESS' | 'ENDED';
@@ -56,6 +59,37 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
     const handleReviewSubmitted = async (studentId: string) => {
         dispatch(addReviewedStudent(Number(studentId)));
         await refreshStudentData(studentId);
+        
+        if (currentLesson && user) {
+            try {
+                const response = await fetch(`http://localhost:8081/api/lessons/${currentLesson.id}/check-reviews`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                switch(result.status) {
+                    case 'rewarded':
+                        dispatch(updateTimeCredits(user.timeCred + result.amount));
+                        toast.success(
+                            `All students reviewed! You earned ${result.amount} TimeCreds 🎉`, 
+                            { autoClose: 3000 }
+                        );
+                        break;
+                    case 'already_rewarded':
+                        toast.info('All students already reviewed for this lesson');
+                        break;
+                    case 'pending':
+                        toast.info(
+                            `Progress: ${result.reviewedCount}/${result.totalStudents} students reviewed`
+                        );
+                        break;
+                }
+            } catch (error) {
+                console.error('Failed to check reviews status:', error);
+                toast.error('Failed to process review completion');
+            }
+        }
+        
         setSelectedStudent(null);
     };
 
