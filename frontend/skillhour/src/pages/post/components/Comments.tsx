@@ -5,6 +5,7 @@ import { formatDistanceToNow } from 'date-fns';
 import communitiesService from '../../../services/CommunitiesService';
 import { RootState } from '../../../store/store';
 import ViewProfile from '../../../components/ViewProfile';
+import { formatDateToJavaFormat } from '../../../utils/timeUtils';
 
 interface CommentsProps {
     postId: number;
@@ -26,7 +27,7 @@ const Comments = ({ postId, comments, onCommentAdded }: CommentsProps) => {
             const comment = await communitiesService.addComment(postId, {
                 body: newComment,
                 author: Number(user.id),
-                postedOn: new Date().toISOString(),
+                postedOn: formatDateToJavaFormat(new Date()),
             });
             onCommentAdded(comment);
             setNewComment('');
