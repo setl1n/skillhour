@@ -78,6 +78,25 @@ class SkillshubService {
             instructor
         };
     }
+
+    public async createLesson(lesson: Omit<Lesson, 'id'>): Promise<Lesson> {
+        const response = await fetch(`${this.baseUrl}/lessons`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(lesson),
+        });
+        if (!response.ok) {
+            throw new Error('Failed to create lesson');
+        }
+        const createdLesson: Lesson = await response.json();
+        const instructor = await userService.getUser(String(createdLesson.instructorId));
+        return {
+            ...createdLesson,
+            instructor
+        };
+    }
 }
 
 export const skillshubService = SkillshubService.getInstance();

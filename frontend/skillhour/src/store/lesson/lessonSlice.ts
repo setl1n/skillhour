@@ -1,13 +1,33 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Lesson } from '../../services/SkillshubService';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { Lesson, skillshubService } from '../../services/SkillshubService';
 
 interface LessonState {
+    lessons: Lesson[];
     currentLesson: Lesson | null;
+    loading: boolean;
+    error: string | null;
 }
 
 const initialState: LessonState = {
-    currentLesson: null
+    lessons: [],
+    currentLesson: null,
+    loading: false,
+    error: null
 };
+
+export const fetchLessons = createAsyncThunk(
+    'lesson/fetchLessons',
+    async () => {
+        return await skillshubService.getAllLessons();
+    }
+);
+
+export const createLesson = createAsyncThunk(
+    'lesson/createLesson',
+    async (lesson: Omit<Lesson, 'id'>) => {
+        return await skillshubService.createLesson(lesson);
+    }
+);
 
 const lessonSlice = createSlice({
     name: 'lesson',
@@ -31,6 +51,33 @@ const lessonSlice = createSlice({
                 state.currentLesson.teacherReviewers.push(action.payload);
             }
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchLessons.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchLessons.fulfilled, (state, action) => {
+                state.loading = false;
+                state.lessons = action.payload;
+                state.error = null;
+            })
+            .addCase(fetchLessons.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch lessons';
+            })
+            .addCase(createLesson.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(createLesson.fulfilled, (state, action) => {
+                state.loading = false;
+                state.lessons.push(action.payload);
+                state.error = null;
+            })
+            .addCase(createLesson.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to create lesson';
+            });
     }
 });
 
