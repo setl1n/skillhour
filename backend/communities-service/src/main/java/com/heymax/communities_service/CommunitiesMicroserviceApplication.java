@@ -11,6 +11,7 @@ import com.heymax.communities_service.entity.Comment;
 import com.heymax.communities_service.service.CommunityService;
 
 import java.util.Arrays;
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class CommunitiesMicroserviceApplication {
@@ -34,11 +35,13 @@ public class CommunitiesMicroserviceApplication {
             dataPost1.setTitle("Getting Started with Pandas");
             dataPost1.setContent("Here are some resources to prepare for our first lesson...");
             dataPost1.setAuthor(1L); // Set by community owner
+            dataPost1.setPostedOn(LocalDateTime.now().minusDays(2));
             Post savedDataPost1 = communityService.createPost(savedDataCommunity.getId(), dataPost1);
 
             Comment dataComment1 = new Comment();
             dataComment1.setBody("Thanks for sharing! Very helpful.");
             dataComment1.setAuthor(2L);
+            dataComment1.setPostedOn(LocalDateTime.now().minusDays(1));
             communityService.addComment(savedDataPost1.getId(), dataComment1);
 
             // Create Fitness Community
@@ -53,11 +56,13 @@ public class CommunitiesMicroserviceApplication {
             fitnessPost1.setTitle("Gym Essentials Checklist");
             fitnessPost1.setContent("What to bring for your first gym session...");
             fitnessPost1.setAuthor(2L); // Set by community owner
+            fitnessPost1.setPostedOn(LocalDateTime.now().minusHours(12));
             Post savedFitnessPost1 = communityService.createPost(savedFitnessCommunity.getId(), fitnessPost1);
 
             Comment fitnessComment1 = new Comment();
             fitnessComment1.setBody("Should we bring our own towels?");
             fitnessComment1.setAuthor(1L);
+            fitnessComment1.setPostedOn(LocalDateTime.now().minusHours(6));
             communityService.addComment(savedFitnessPost1.getId(), fitnessComment1);
 
             // Create Cooking Community
@@ -72,16 +77,19 @@ public class CommunitiesMicroserviceApplication {
             cookingPost1.setTitle("Ingredients List for Next Session");
             cookingPost1.setContent("Please prepare these ingredients before the class...");
             cookingPost1.setAuthor(3L); // Set by community owner
+            cookingPost1.setPostedOn(LocalDateTime.now().minusHours(2));
             Post savedCookingPost1 = communityService.createPost(savedCookingCommunity.getId(), cookingPost1);
 
             Comment cookingComment1 = new Comment();
             cookingComment1.setBody("Can we substitute olive oil with vegetable oil?");
             cookingComment1.setAuthor(1L);
+            cookingComment1.setPostedOn(LocalDateTime.now().minusHours(1));
             communityService.addComment(savedCookingPost1.getId(), cookingComment1);
 
             Comment cookingComment2 = new Comment();
             cookingComment2.setBody("Yes, that should work fine!");
             cookingComment2.setAuthor(3L);
+            cookingComment2.setPostedOn(LocalDateTime.now().minusMinutes(30));
             communityService.addComment(savedCookingPost1.getId(), cookingComment2);
         };
     }
