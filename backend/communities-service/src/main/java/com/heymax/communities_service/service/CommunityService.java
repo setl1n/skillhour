@@ -70,4 +70,9 @@ public class CommunityService {
     public List<Post> getCommunityPosts(Long communityId) {
         return postRepository.findByCommunityId(communityId);
     }
+
+    public Post getPostById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+    }
 }
