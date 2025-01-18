@@ -13,6 +13,9 @@ export interface Post {
     id: number;
     title: string;
     content: string;
+    author: number;
+    authorData?: User;
+    postedOn: string;
     likes: number;
     dislikes: number;
     comments: Comment[];
@@ -21,8 +24,9 @@ export interface Post {
 export interface Comment {
     id: number;
     body: string;
-    postedBy: number;
-    author?: User;
+    author: number;
+    authorData?: User;
+    postedOn: string;
     likes: number;
     dislikes: number;
 }
@@ -57,7 +61,9 @@ class CommunitiesService {
             throw new Error('Failed to fetch community');
         }
         const community: Community = await response.json();
-        return await this.enhanceCommunityWithOwner(community);
+        const enhancedCommunity = await this.enhanceCommunityWithOwner(community);
+        enhancedCommunity.posts = await this.enhancePostsWithAuthors(enhancedCommunity.posts);
+        return enhancedCommunity;
     }
 
     public async createCommunity(community: Partial<Community>): Promise<Community> {
@@ -126,11 +132,37 @@ class CommunitiesService {
         };
     }
 
+    private async enhancePostsWithAuthors(posts: Post[]): Promise<Post[]> {
+        return await Promise.all(
+            posts.map(async (post) => {
+                const authorData = await userService.getUser(String(post.author));
+                const enhancedComments = await this.enhanceCommentsWithAuthors(post.comments);
+                return {
+                    ...post,
+                    authorData,
+                    comments: enhancedComments
+                };
+            })
+        );
+    }
+
+    private async enhanceCommentsWithAuthors(comments: Comment[]): Promise<Comment[]> {
+        return await Promise.all(
+            comments.map(async (comment) => {
+                const authorData = await userService.getUser(String(comment.author));
+                return {
+                    ...comment,
+                    authorData
+                };
+            })
+        );
+    }
+
     private async enhanceCommentWithAuthor(comment: Comment): Promise<Comment> {
-        const author = await userService.getUser(String(comment.postedBy));
+        const authorData = await userService.getUser(String(comment.author));
         return {
             ...comment,
-            author
+            authorData
         };
     }
 }

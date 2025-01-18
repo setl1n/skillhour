@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import communitiesService, { Community } from '../../../services/CommunitiesService';
 import Card from '../../../components/Card';
 
@@ -7,6 +8,12 @@ interface CommunityCardProps {
 }
 
 const CommunityCard = ({ community }: CommunityCardProps) => {
+    const navigate = useNavigate();
+
+    const handleViewCommunity = () => {
+        navigate(`/communities/${community.id}`);
+    };
+
     return (
         <Card>
             <h3 className="text-xl font-semibold mb-2">{community.name}</h3>
@@ -14,7 +21,10 @@ const CommunityCard = ({ community }: CommunityCardProps) => {
                 <p>{community.posts.length} posts</p>
                 <p>{community.lessonIds.length} lessons</p>
             </div>
-            <button className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition-colors">
+            <button 
+                onClick={handleViewCommunity}
+                className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition-colors"
+            >
                 View Community
             </button>
         </Card>
