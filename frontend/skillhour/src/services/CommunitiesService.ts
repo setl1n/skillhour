@@ -128,6 +128,17 @@ class CommunitiesService {
         return enhancedPost[0];
     }
 
+    public async addLesson(communityId: number, lessonId: number): Promise<Community> {
+        const response = await fetch(`${this.baseUrl}/${communityId}/lessons/${lessonId}`, {
+            method: 'POST'
+        });
+        if (!response.ok) {
+            throw new Error('Failed to add lesson to community');
+        }
+        const community: Community = await response.json();
+        return await this.enhanceCommunityWithOwner(community);
+    }
+
     private async enhanceCommunitiesWithOwners(communities: Community[]): Promise<Community[]> {
         return await Promise.all(
             communities.map(async (community) => await this.enhanceCommunityWithOwner(community))

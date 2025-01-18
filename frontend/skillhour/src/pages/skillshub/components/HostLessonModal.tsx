@@ -94,7 +94,16 @@ const HostLessonModal = ({ isOpen, onClose }: HostLessonModalProps) => {
                 communityId: formData.communityId ? Number(formData.communityId) : undefined
             };
             
-            await dispatch(createLesson(newLesson)).unwrap();
+            const result = await dispatch(createLesson(newLesson)).unwrap();
+            
+            // Add lesson to community if a community was selected
+            if (formData.communityId) {
+                await communitiesService.addLesson(
+                    Number(formData.communityId),
+                    result.id
+                );
+            }
+            
             onClose();
         } catch (error) {
             console.error('Failed to create lesson:', error);

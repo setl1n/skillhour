@@ -83,9 +83,7 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
     const canMarkAttendance = () => {
         const lessonTime = new Date(displayLesson.dateTime);
         const now = new Date();
-        const timeDifference = lessonTime.getTime() - now.getTime();
-        const fifteenMinutesInMs = 15 * 60 * 1000;
-        return timeDifference <= fifteenMinutesInMs && timeDifference > 0;
+        return now >= lessonTime;
     };
 
     const renderActionButton = () => {
@@ -135,15 +133,25 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
             );
         }
 
+        if (canMarkAttendance()) {
+            return (
+                <button
+                    className="w-full bg-gray-500 text-white py-3 rounded-lg cursor-not-allowed"
+                    disabled
+                >
+                    Class Has Began
+                </button>
+            );
+        }
+
         return (
             <>
                 <button
                     className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors mt-6"
                     onClick={handleEnrollClick}
-                    disabled={enrolling || canMarkAttendance()}
+                    disabled={enrolling}
                 >
-                    {enrolling ? 'Enrolling...' :
-                        canMarkAttendance() ? 'Enrollment Closed' : 'Enroll in Class'}
+                    {enrolling ? 'Enrolling...' : 'Enroll in Class'}
                 </button>
 
                 <Modal
