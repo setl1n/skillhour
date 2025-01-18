@@ -59,24 +59,24 @@ public class UsersMicroserviceApplication {
             teacherReviewRepository.save(createTeacherReview(user2, user1.getId(), 5, 5, 4, "Really helps improve game strategy"));
 
             // Teacher Reviews for User 3
-            teacherReviewRepository.save(createTeacherReview(user3, user1.getId(), 5, 4, 5, "Fantastic yoga instructor"));
-            teacherReviewRepository.save(createTeacherReview(user3, user2.getId(), 4, 5, 4, "Very attentive to form"));
-            teacherReviewRepository.save(createTeacherReview(user3, user1.getId(), 5, 5, 5, "Great at customizing poses for beginners"));
+            teacherReviewRepository.save(createTeacherReview(user3, user1.getId(), 5, 4, 5, "Fantastic cooking instructor, makes complex recipes simple"));
+            teacherReviewRepository.save(createTeacherReview(user3, user2.getId(), 4, 5, 4, "Great at teaching knife skills and food preparation"));
+            teacherReviewRepository.save(createTeacherReview(user3, user1.getId(), 5, 5, 5, "Excellent at explaining flavor combinations and cooking techniques"));
 
             // Student Reviews for User 1
-            studentReviewRepository.save(createStudentReview(user1, user2.getId(), 4, 5, 4, "Quick learner in Python"));
-            studentReviewRepository.save(createStudentReview(user1, user3.getId(), 5, 5, 5, "Great at pair programming"));
-            studentReviewRepository.save(createStudentReview(user1, user2.getId(), 4, 4, 5, "Always helps others understand"));
+            studentReviewRepository.save(createStudentReview(user1, user2.getId(), 4, 5, 4, "Improving quickly in basketball fundamentals"));
+            studentReviewRepository.save(createStudentReview(user1, user3.getId(), 5, 5, 5, "Great team spirit and coordination"));
+            studentReviewRepository.save(createStudentReview(user1, user2.getId(), 4, 4, 5, "Dedicated to improving athleticism"));
 
             // Student Reviews for User 2
-            studentReviewRepository.save(createStudentReview(user2, user1.getId(), 5, 5, 5, "Natural leader in team sports"));
-            studentReviewRepository.save(createStudentReview(user2, user3.getId(), 4, 5, 4, "Great team player"));
-            studentReviewRepository.save(createStudentReview(user2, user1.getId(), 5, 5, 5, "Shows dedication in practice"));
+            studentReviewRepository.save(createStudentReview(user2, user1.getId(), 5, 5, 5, "Excellent at following recipes"));
+            studentReviewRepository.save(createStudentReview(user2, user3.getId(), 4, 5, 4, "Shows creativity in the kitchen"));
+            studentReviewRepository.save(createStudentReview(user2, user1.getId(), 5, 5, 5, "Great progress with cooking techniques"));
 
             // Student Reviews for User 3
-            studentReviewRepository.save(createStudentReview(user3, user1.getId(), 4, 5, 4, "Very focused during meditation"));
-            studentReviewRepository.save(createStudentReview(user3, user2.getId(), 5, 5, 4, "Quick to learn new poses"));
-            studentReviewRepository.save(createStudentReview(user3, user1.getId(), 4, 4, 5, "Great progress in flexibility"));
+            studentReviewRepository.save(createStudentReview(user3, user1.getId(), 4, 5, 4, "Quick learner in Java programming"));
+            studentReviewRepository.save(createStudentReview(user3, user2.getId(), 5, 5, 4, "Great problem-solving skills"));
+            studentReviewRepository.save(createStudentReview(user3, user1.getId(), 4, 4, 5, "Excellent at debugging code"));
         };
     }
 

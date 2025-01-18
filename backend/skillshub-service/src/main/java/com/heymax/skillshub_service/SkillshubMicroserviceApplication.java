@@ -59,10 +59,87 @@ public class SkillshubMicroserviceApplication {
             lesson3.setStudentIds(Arrays.asList(1L));
             lesson3.setState(LessonState.UPCOMING);
 
-            // Save the lessons
-            lessonService.createLesson(lesson1);
-            lessonService.createLesson(lesson2);
-            lessonService.createLesson(lesson3);
+            // Additional Data Analytics lessons
+            Lesson lesson1b = new Lesson();
+            lesson1b.setInstructorId(1L);
+            lesson1b.setMaxCapacity(5);
+            lesson1b.setSkillTaught("Data Visualization with Python");
+            LocalDateTime startTime1b = startTime1.plusDays(7);
+            lesson1b.setDateTime(startTime1b);
+            lesson1b.setEndDateTime(startTime1b.plusHours(2));
+            lesson1b.setIsOnline(true);
+            lesson1b.setStudentIds(Arrays.asList(2L));
+            lesson1b.setState(LessonState.UPCOMING);
+
+            Lesson lesson1c = new Lesson();
+            lesson1c.setInstructorId(1L);
+            lesson1c.setMaxCapacity(5);
+            lesson1c.setSkillTaught("SQL for Data Analysis");
+            LocalDateTime startTime1c = startTime1.plusDays(14);
+            lesson1c.setDateTime(startTime1c);
+            lesson1c.setEndDateTime(startTime1c.plusHours(2));
+            lesson1c.setIsOnline(true);
+            lesson1c.setStudentIds(Arrays.asList(3L));
+            lesson1c.setState(LessonState.UPCOMING);
+
+            // Additional Fitness lessons
+            Lesson lesson2b = new Lesson();
+            lesson2b.setInstructorId(2L);
+            lesson2b.setMaxCapacity(3);
+            lesson2b.setSkillTaught("Advanced HIIT Training");
+            LocalDateTime startTime2b = startTime2.plusDays(7);
+            lesson2b.setDateTime(startTime2b);
+            lesson2b.setEndDateTime(startTime2b.plusHours(1));
+            lesson2b.setIsOnline(false);
+            lesson2b.setLocation("Choa Chu Kang ActiveSG Gym");
+            lesson2b.setStudentIds(Arrays.asList(1L));
+            lesson2b.setState(LessonState.UPCOMING);
+
+            Lesson lesson2c = new Lesson();
+            lesson2c.setInstructorId(2L);
+            lesson2c.setMaxCapacity(4);
+            lesson2c.setSkillTaught("Strength Training Basics");
+            LocalDateTime startTime2c = startTime2.plusDays(14);
+            lesson2c.setDateTime(startTime2c);
+            lesson2c.setEndDateTime(startTime2c.plusHours(2));
+            lesson2c.setIsOnline(false);
+            lesson2c.setLocation("Choa Chu Kang ActiveSG Gym");
+            lesson2c.setStudentIds(Arrays.asList(3L));
+            lesson2c.setState(LessonState.UPCOMING);
+
+            // Additional Cooking lessons
+            Lesson lesson3b = new Lesson();
+            lesson3b.setInstructorId(3L);
+            lesson3b.setMaxCapacity(5);
+            lesson3b.setSkillTaught("Asian Cuisine Basics");
+            LocalDateTime startTime3b = startTime3.plusDays(7);
+            lesson3b.setDateTime(startTime3b);
+            lesson3b.setEndDateTime(startTime3b.plusHours(3));
+            lesson3b.setIsOnline(true);
+            lesson3b.setStudentIds(Arrays.asList(2L));
+            lesson3b.setState(LessonState.UPCOMING);
+
+            Lesson lesson3c = new Lesson();
+            lesson3c.setInstructorId(3L);
+            lesson3c.setMaxCapacity(4);
+            lesson3c.setSkillTaught("Dessert Making Workshop");
+            LocalDateTime startTime3c = startTime3.plusDays(14);
+            lesson3c.setDateTime(startTime3c);
+            lesson3c.setEndDateTime(startTime3c.plusHours(3));
+            lesson3c.setIsOnline(true);
+            lesson3c.setStudentIds(Arrays.asList(1L));
+            lesson3c.setState(LessonState.UPCOMING);
+
+            // Save all lessons
+            Lesson saved1 = lessonService.createLesson(lesson1);
+            Lesson saved1b = lessonService.createLesson(lesson1b);
+            Lesson saved1c = lessonService.createLesson(lesson1c);
+            Lesson saved2 = lessonService.createLesson(lesson2);
+            Lesson saved2b = lessonService.createLesson(lesson2b);
+            Lesson saved2c = lessonService.createLesson(lesson2c);
+            Lesson saved3 = lessonService.createLesson(lesson3);
+            Lesson saved3b = lessonService.createLesson(lesson3b);
+            Lesson saved3c = lessonService.createLesson(lesson3c);
         };
     }
 }
