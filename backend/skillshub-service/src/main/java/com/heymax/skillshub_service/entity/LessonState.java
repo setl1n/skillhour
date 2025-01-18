@@ -1,7 +1,7 @@
 package com.heymax.skillshub_service.entity;
 
 public enum LessonState {
-    FUTURE,
+    UPCOMING,
     IN_PROGRESS,
     ENDED
 }

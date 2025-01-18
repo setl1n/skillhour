@@ -32,7 +32,7 @@ public class SkillshubMicroserviceApplication {
             lesson1.setEndDateTime(startTime1.plusHours(2));  // 12:00
             lesson1.setIsOnline(true);
             lesson1.setStudentIds(Arrays.asList(2L, 3L));
-            lesson1.setState(LessonState.FUTURE);
+            lesson1.setState(LessonState.UPCOMING);
 
             Lesson lesson2 = new Lesson();
             lesson2.setInstructorId(2L);
@@ -45,7 +45,7 @@ public class SkillshubMicroserviceApplication {
             lesson2.setIsOnline(false);
             lesson2.setLocation("Choa Chu Kang ActiveSG Gym");
             lesson2.setStudentIds(Arrays.asList(1L, 3L));
-            lesson2.setState(LessonState.FUTURE);
+            lesson2.setState(LessonState.UPCOMING);
 
             Lesson lesson3 = new Lesson();
             lesson3.setInstructorId(3L);
@@ -57,7 +57,7 @@ public class SkillshubMicroserviceApplication {
             lesson3.setEndDateTime(startTime3.plusHours(4));  // 22:00
             lesson3.setIsOnline(true);
             lesson3.setStudentIds(Arrays.asList(1L));
-            lesson3.setState(LessonState.FUTURE);
+            lesson3.setState(LessonState.UPCOMING);
 
             // Save the lessons
             lessonService.createLesson(lesson1);

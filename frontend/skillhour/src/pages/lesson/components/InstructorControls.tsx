@@ -13,7 +13,7 @@ const InstructorControls = ({ lesson }: InstructorControlsProps) => {
     const [showEndModal, setShowEndModal] = useState(false);
     const dispatch = useTypedDispatch();
 
-    const handleLessonStateUpdate = async (newState: 'FUTURE' | 'IN_PROGRESS' | 'ENDED') => {
+    const handleLessonStateUpdate = async (newState: 'UPCOMING' | 'IN_PROGRESS' | 'ENDED') => {
         try {
             const updatedLesson = await skillshubService.updateLessonState(lesson.id, newState);
             dispatch(setCurrentLesson(updatedLesson));
@@ -24,7 +24,7 @@ const InstructorControls = ({ lesson }: InstructorControlsProps) => {
     };
 
     switch (lesson.state) {
-        case 'FUTURE':
+        case 'UPCOMING':
             return (
                 <button
                     className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors"

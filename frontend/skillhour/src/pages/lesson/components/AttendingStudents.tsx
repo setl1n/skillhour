@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 
 interface AttendingStudentsProps {
     studentIds: number[];
-    lessonState: 'FUTURE' | 'IN_PROGRESS' | 'ENDED';
+    lessonState: 'UPCOMING' | 'IN_PROGRESS' | 'ENDED';
 }
 
 const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) => {

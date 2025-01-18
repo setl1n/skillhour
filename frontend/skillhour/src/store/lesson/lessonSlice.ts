@@ -16,7 +16,7 @@ const lessonSlice = createSlice({
         setCurrentLesson: (state, action: PayloadAction<Lesson>) => {
             state.currentLesson = action.payload;
         },
-        updateLessonState: (state, action: PayloadAction<'FUTURE' | 'IN_PROGRESS' | 'ENDED'>) => {
+        updateLessonState: (state, action: PayloadAction<'UPCOMING' | 'IN_PROGRESS' | 'ENDED'>) => {
             if (state.currentLesson) {
                 state.currentLesson.state = action.payload;
             }

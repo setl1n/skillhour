@@ -225,7 +225,7 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
                 </div>
 
                 <div className="mb-4">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${displayLesson.state === 'FUTURE' ? 'bg-blue-100 text-blue-700' :
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${displayLesson.state === 'UPCOMING' ? 'bg-blue-100 text-blue-700' :
                             displayLesson.state === 'IN_PROGRESS' ? 'bg-green-100 text-green-700' :
                                 'bg-gray-100 text-gray-700'
                         }`}>

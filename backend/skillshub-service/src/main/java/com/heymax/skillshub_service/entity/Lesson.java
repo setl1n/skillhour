@@ -63,5 +63,5 @@ public class Lesson {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private LessonState state = LessonState.FUTURE;
+    private LessonState state = LessonState.UPCOMING;
 }

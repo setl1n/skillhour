@@ -11,7 +11,7 @@ export interface Lesson {
     isOnline: boolean;
     location: string;
     studentIds: number[];
-    state: 'FUTURE' | 'IN_PROGRESS' | 'ENDED';
+    state: 'UPCOMING' | 'IN_PROGRESS' | 'ENDED';
     reviewedStudents: number[];    // IDs of students who have been reviewed
     teacherReviewers: number[];    // IDs of students who have reviewed the teacher
 }
@@ -64,7 +64,7 @@ class SkillshubService {
         };
     }
 
-    public async updateLessonState(lessonId: number, state: 'FUTURE' | 'IN_PROGRESS' | 'ENDED'): Promise<Lesson> {
+    public async updateLessonState(lessonId: number, state: 'UPCOMING' | 'IN_PROGRESS' | 'ENDED'): Promise<Lesson> {
         const response = await fetch(`${this.baseUrl}/lessons/${lessonId}/state/${state}`, {
             method: 'POST',
         });
