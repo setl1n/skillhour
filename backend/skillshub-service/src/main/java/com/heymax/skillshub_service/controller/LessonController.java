@@ -1,8 +1,11 @@
 package com.heymax.skillshub_service.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,5 +76,19 @@ public class LessonController {
             @PathVariable Long lessonId,
             @PathVariable Long studentReviewerId) {
         return ResponseEntity.ok(lessonService.markTeacherAsReviewed(lessonId, studentReviewerId));
+    }
+
+    @PostMapping("/{lessonId}/check-reviews")
+    public ResponseEntity<Map<String, Object>> checkAllStudentsReviewed(@PathVariable Long lessonId) {
+        Map<String, Object> result = lessonService.checkAndRewardAllStudentsReviewed(lessonId);
+        
+        HttpStatus status = switch((String) result.get("status")) {
+            case "already_rewarded" -> HttpStatus.OK;
+            case "rewarded" -> HttpStatus.OK;
+            case "pending" -> HttpStatus.ACCEPTED;
+            default -> HttpStatus.INTERNAL_SERVER_ERROR;
+        };
+        
+        return ResponseEntity.status(status).body(result);
     }
 }

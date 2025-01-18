@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: skillshub-service
+
+service:
+  admin-key: ${ADMIN_KEY:dev-admin-key}
+  user-service-url: http://localhost:8080

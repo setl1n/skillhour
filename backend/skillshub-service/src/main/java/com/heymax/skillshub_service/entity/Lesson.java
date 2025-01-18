@@ -59,6 +59,9 @@ public class Lesson {
     private List<Long> teacherReviewers = new ArrayList<>();
 
     @Column(nullable = false)
+    private Boolean instructorRewarded = false;  // Add this field
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private LessonState state = LessonState.FUTURE;
 }
