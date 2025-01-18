@@ -38,7 +38,13 @@ const TrendingPosts = () => {
                 );
                 const allPostsArrays = await Promise.all(allPostsPromises);
                 const allPosts = allPostsArrays.flat();
-                setPosts(allPosts);
+                
+                // Sort posts by total engagement (likes + dislikes) and take top 4
+                const sortedPosts = allPosts
+                    .sort((a, b) => (b.likes + b.dislikes) - (a.likes + a.dislikes))
+                    .slice(0, 4);
+                
+                setPosts(sortedPosts);
             } catch {
                 setError('Failed to load posts');
             } finally {
