@@ -88,7 +88,7 @@ const authSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(registerAsync.fulfilled, (state, action) => {
+            .addCase(registerAsync.fulfilled, (state) => {
                 state.loading = false;
                 state.error = null;
             })
