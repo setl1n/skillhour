@@ -91,4 +91,12 @@ public class UserService {
             throw new RuntimeException("Enrollment failed: " + e.getMessage());
         }
     }
+
+    public User addTimeCredits(Long userId, Integer amount) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        user.setTimeCred(user.getTimeCred() + amount);
+        return userRepository.save(user);
+    }
 }

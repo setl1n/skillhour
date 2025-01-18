@@ -5,3 +5,6 @@ spring:
 jwt:
   secret: ${JWT_SECRET_KEY:bfb13e037709af1b2098c7fdc3a54c93fb0041e5960f098e6f8bfb6b69e52237}  # Default key for development
   validity-in-milliseconds: 3600000  # 1 hour
+
+service:
+  admin-key: ${ADMIN_KEY:dev-admin-key}

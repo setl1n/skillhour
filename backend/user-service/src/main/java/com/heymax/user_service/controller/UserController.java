@@ -6,6 +6,8 @@ import com.heymax.user_service.entity.User;
 import com.heymax.user_service.service.UserService;
 import com.heymax.user_service.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,9 @@ public class UserController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Value("${service.admin-key}")
+    private String adminKey;
 
     @PostMapping("/auth/register")
     public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -48,5 +53,19 @@ public class UserController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "Enrollment successful");
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/users/{userId}/timecreds")
+    public ResponseEntity<User> updateTimeCredits(
+            @PathVariable Long userId,
+            @RequestBody Map<String, Integer> request,
+            @RequestHeader("Admin-Key") String providedAdminKey) {
+        
+        if (!adminKey.equals(providedAdminKey)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        
+        User updatedUser = userService.addTimeCredits(userId, request.get("amount"));
+        return ResponseEntity.ok(updatedUser);
     }
 }
