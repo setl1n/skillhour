@@ -26,8 +26,6 @@ export const registerAsync = createAsyncThunk<UserResponse, RegisterCredentials>
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await userService.register(credentials);
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('user', JSON.stringify(response));
             return response;
         } catch (error) {
             return rejectWithValue((error as Error).message);
@@ -91,8 +89,6 @@ const authSlice = createSlice({
                 state.error = null;
             })
             .addCase(registerAsync.fulfilled, (state, action) => {
-                state.isAuthenticated = true;
-                state.user = action.payload;
                 state.loading = false;
                 state.error = null;
             })

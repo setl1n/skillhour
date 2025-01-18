@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 import { AppDispatch, RootState } from '../../../store/store';
 import { registerAsync, clearError } from '../../../store/auth/authSlice';
 
@@ -15,7 +16,13 @@ const RegisterForm = ({ toggleForm }: { toggleForm: () => void }) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(clearError());
-        dispatch(registerAsync(formData));
+        try {
+            await dispatch(registerAsync(formData)).unwrap();
+            toast.success('Registration successful! Please login with your credentials.');
+            toggleForm(); // Switch to login view
+        } catch {
+            // ...existing error handling...
+        }
     };
 
     return (
