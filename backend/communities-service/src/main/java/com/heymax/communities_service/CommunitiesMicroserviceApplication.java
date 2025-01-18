@@ -36,6 +36,7 @@ public class CommunitiesMicroserviceApplication {
             dataPost1.setContent("Here are some resources to prepare for our first lesson...");
             dataPost1.setAuthor(1L); // Set by community owner
             dataPost1.setPostedOn(LocalDateTime.now().minusDays(2));
+            dataPost1.setLikes(5L);
             Post savedDataPost1 = communityService.createPost(savedDataCommunity.getId(), dataPost1);
 
             Comment dataComment1 = new Comment();
@@ -56,6 +57,8 @@ public class CommunitiesMicroserviceApplication {
             fitnessPost1.setTitle("Gym Essentials Checklist");
             fitnessPost1.setContent("What to bring for your first gym session...");
             fitnessPost1.setAuthor(2L); // Set by community owner
+            fitnessPost1.setLikes(3L);
+            fitnessPost1.setDislikes(1L);
             fitnessPost1.setPostedOn(LocalDateTime.now().minusHours(12));
             Post savedFitnessPost1 = communityService.createPost(savedFitnessCommunity.getId(), fitnessPost1);
 
@@ -77,6 +80,7 @@ public class CommunitiesMicroserviceApplication {
             cookingPost1.setTitle("Ingredients List for Next Session");
             cookingPost1.setContent("Please prepare these ingredients before the class...");
             cookingPost1.setAuthor(3L); // Set by community owner
+            cookingPost1.setLikes(3L);
             cookingPost1.setPostedOn(LocalDateTime.now().minusHours(2));
             Post savedCookingPost1 = communityService.createPost(savedCookingCommunity.getId(), cookingPost1);
 
