@@ -6,6 +6,7 @@ import Header from './components/Header';
 import SkillsHub from './pages/skillshub/SkillsHub';
 import Profile from './pages/profile/Profile';
 import Lesson from './pages/lesson/Lesson';
+import Communities from './pages/communities/Communities';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./utils/axiosSetup.js";
@@ -27,6 +28,7 @@ function App() {
                           <Route path="/" element={<SkillsHub />} />
                           <Route path="/profile" element={<Profile />} />
                           <Route path="/lesson/:id" element={<Lesson />} />
+                          <Route path="/communities" element={<Communities />} />
                         </Routes>
                     }
                   />

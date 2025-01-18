@@ -16,6 +16,7 @@ const Header = () => {
 
   const navLinks = [
     { path: '/', label: 'SkillsHub' },
+    { path: '/communities', label: 'Communities' },
   ];
 
   const handleLogout = () => {
