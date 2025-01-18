@@ -10,10 +10,9 @@ import ViewProfile from '../../../components/ViewProfile';
 
 interface AttendingStudentsProps {
     studentIds: number[];
-    lessonState: 'UPCOMING' | 'IN_PROGRESS' | 'ENDED';
 }
 
-const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) => {
+const AttendingStudents = ({ studentIds }: AttendingStudentsProps) => {
     const dispatch = useDispatch();
     const [students, setStudents] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
@@ -122,7 +121,7 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
                                             </div>
                                         )}
                                     </div>
-                                    {isInstructor && lessonState === 'ENDED' && !hasBeenReviewed && (
+                                    {isInstructor && currentLesson?.state === 'ENDED' && !hasBeenReviewed && (
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation(); // Prevent navigation when clicking the button
