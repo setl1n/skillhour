@@ -66,6 +66,8 @@ class UserService {
 
     private constructor() {
         this.baseUrl = 'http://localhost:8080/api';
+        // Initialize token from localStorage when service is created
+        this.token = localStorage.getItem('token');
     }
 
     public static getInstance(): UserService {
@@ -137,8 +139,8 @@ class UserService {
         });
     }
 
-    public async createStudentReview(userId: string, review: StudentReviewSubmission): Promise<StudentReview> {
-        return this.request<StudentReview>(`/reviews/student/${userId}`, {
+    public async createStudentReview(userId: string, lessonId: string, review: StudentReviewSubmission): Promise<StudentReview> {
+        return this.request<StudentReview>(`/reviews/student/${userId}/${lessonId}`, {
             method: 'POST',
             body: JSON.stringify(review),
         });

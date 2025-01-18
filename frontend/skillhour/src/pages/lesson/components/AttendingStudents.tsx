@@ -39,8 +39,9 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
     };
 
     const handleReviewStudent = async (studentId: string) => {
-        // TODO: Implement review confirmation logic
-        console.log('Reviewing student:', studentId);
+        if (!currentLesson) return;
+        console.log('Reviewing student:', studentId, 'for lesson:', currentLesson.id);
+        setSelectedStudent(students.find(s => s.id === studentId) || null);
     };
 
     return (
@@ -86,11 +87,12 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
                     })
                 )}
             </div>
-            {selectedStudent && (
+            {selectedStudent && currentLesson && (
                 <StudentReviewModal
                     isOpen={!!selectedStudent}
                     onClose={() => setSelectedStudent(null)}
                     student={selectedStudent}
+                    lessonId={currentLesson.id.toString()}
                     onConfirm={handleReviewStudent}
                 />
             )}

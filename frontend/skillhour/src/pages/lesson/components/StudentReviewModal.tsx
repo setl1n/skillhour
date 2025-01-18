@@ -7,6 +7,7 @@ interface StudentReviewModalProps {
     isOpen: boolean;
     onClose: () => void;
     student: User;
+    lessonId: string;  // Add this new prop
     onConfirm: (studentId: string) => void;
 }
 
@@ -29,7 +30,7 @@ const StarRating = ({ rating, setRating, label }: { rating: number; setRating: (
     );
 };
 
-const StudentReviewModal = ({ isOpen, onClose, student, onConfirm }: StudentReviewModalProps) => {
+const StudentReviewModal = ({ isOpen, onClose, student, lessonId, onConfirm }: StudentReviewModalProps) => {
     const [overallScore, setOverallScore] = useState(0);
     const [attentiveScore, setAttentiveScore] = useState(0);
     const [participationScore, setParticipationScore] = useState(0);
@@ -39,7 +40,7 @@ const StudentReviewModal = ({ isOpen, onClose, student, onConfirm }: StudentRevi
     const handleSubmit = async () => {
         try {
             setIsSubmitting(true);
-            await userService.createStudentReview(student.id, {
+            await userService.createStudentReview(student.id, lessonId, {
                 overallScore,
                 attentiveScore,
                 participationScore,
