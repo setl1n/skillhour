@@ -152,6 +152,19 @@ class UserService {
         });
         return response;
     }
+
+    public async createTeacherReview(userId: string, lessonId: string, review: {
+        overallScore: number;
+        knowledgeScore: number;
+        deliveryScore: number;
+        comments: string;
+    }): Promise<TeacherReview> {
+        const response = await this.request<TeacherReview>(`/reviews/teacher/${userId}/${lessonId}`, {
+            method: 'POST',
+            body: JSON.stringify(review),
+        });
+        return response;
+    }
 }
 
 export const userService = UserService.getInstance();
