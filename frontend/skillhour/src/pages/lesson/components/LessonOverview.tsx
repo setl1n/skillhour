@@ -9,6 +9,7 @@ import { useTypedDispatch } from '../../../hooks/useTypedDispatch';
 import { updateTimeCredits } from '../../../store/auth/authSlice';
 import { setCurrentLesson } from '../../../store/lesson/lessonSlice';
 import InstructorControls from './InstructorControls';
+import Modal from '../../../components/Modal';
 
 interface LessonOverviewProps {
     lesson: Lesson;
@@ -17,6 +18,7 @@ interface LessonOverviewProps {
 
 const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) => {
     const [enrolling, setEnrolling] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
     const dispatch = useTypedDispatch();
     const user = useSelector((state: RootState) => state.auth.user);
     const currentLesson = useSelector((state: RootState) => state.lesson.currentLesson);
@@ -67,6 +69,15 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
         } finally {
             setEnrolling(false);
         }
+    };
+
+    const handleEnrollClick = () => {
+        setShowConfirmModal(true);
+    };
+
+    const handleConfirmEnroll = async () => {
+        setShowConfirmModal(false);
+        await handleEnroll();
     };
 
     const canMarkAttendance = () => {
@@ -125,14 +136,46 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
         }
 
         return (
-            <button
-                className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors mt-6"
-                onClick={handleEnroll}
-                disabled={enrolling || canMarkAttendance()}
-            >
-                {enrolling ? 'Enrolling...' :
-                    canMarkAttendance() ? 'Enrollment Closed' : 'Enroll in Class'}
-            </button>
+            <>
+                <button
+                    className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors mt-6"
+                    onClick={handleEnrollClick}
+                    disabled={enrolling || canMarkAttendance()}
+                >
+                    {enrolling ? 'Enrolling...' :
+                        canMarkAttendance() ? 'Enrollment Closed' : 'Enroll in Class'}
+                </button>
+
+                <Modal
+                    isOpen={showConfirmModal}
+                    onClose={() => setShowConfirmModal(false)}
+                >
+                    <div className="space-y-4">
+                        <h2 className="text-xl font-bold">Confirm Enrollment</h2>
+                        <p>Are you sure you want to enroll in this class for:</p>
+                        <div className="flex items-center gap-3">
+                            <FaCoins className="text-amber-600" />
+                            <span className="text-amber-600 font-medium">
+                                {calculateTimeCreds(displayLesson.dateTime, displayLesson.endDateTime)} TimeCreds
+                            </span>
+                        </div>
+                        <div className="flex justify-end gap-3 mt-6">
+                            <button
+                                className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors"
+                                onClick={() => setShowConfirmModal(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+                                onClick={handleConfirmEnroll}
+                            >
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
+                </Modal>
+            </>
         );
     };
 
