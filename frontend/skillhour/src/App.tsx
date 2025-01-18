@@ -8,6 +8,7 @@ import Profile from './pages/profile/Profile';
 import Lesson from './pages/lesson/Lesson';
 import Communities from './pages/communities/Communities';
 import Community from './pages/community/Community';
+import Post from './pages/post/Post';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./utils/axiosSetup.js";
@@ -31,6 +32,7 @@ function App() {
                           <Route path="/lesson/:id" element={<Lesson />} />
                           <Route path="/communities" element={<Communities />} />
                           <Route path="/communities/:id" element={<Community />} />
+                          <Route path="/post/:id" element={<Post />} />
                         </Routes>
                     }
                   />

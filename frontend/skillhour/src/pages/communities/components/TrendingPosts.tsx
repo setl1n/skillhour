@@ -1,18 +1,26 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import communitiesService, { Post } from '../../../services/CommunitiesService';
 import Card from '../../../components/Card';
 
 const PostCard = ({ post }: { post: Post }) => {
+    const navigate = useNavigate();
+    
     return (
-        <Card>
-            <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-            <p className="text-gray-600 mb-3 line-clamp-2">{post.content}</p>
-            <div className="flex items-center gap-4 text-gray-500 text-sm">
-                <span>{post.comments.length} comments</span>
-                <span>{post.likes} likes</span>
-                <span>{post.dislikes} dislikes</span>
-            </div>
-        </Card>
+        <div 
+            onClick={() => navigate(`/post/${post.id}`)}
+            className="cursor-pointer transition-all duration-200 hover:scale-[1.02]"
+        >
+            <Card>
+                <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
+                <p className="text-gray-600 mb-3 line-clamp-2">{post.content}</p>
+                <div className="flex items-center gap-4 text-gray-500 text-sm">
+                    <span>{post.comments.length} comments</span>
+                    <span>{post.likes} likes</span>
+                    <span>{post.dislikes} dislikes</span>
+                </div>
+            </Card>
+        </div>
     );
 };
 
