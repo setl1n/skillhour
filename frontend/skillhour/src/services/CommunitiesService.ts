@@ -118,6 +118,16 @@ class CommunitiesService {
         return await this.enhanceCommentWithAuthor(newComment);
     }
 
+    public async getPostById(postId: number): Promise<Post> {
+        const response = await fetch(`${this.baseUrl}/posts/${postId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch post');
+        }
+        const post: Post = await response.json();
+        const enhancedPost = await this.enhancePostsWithAuthors([post]);
+        return enhancedPost[0];
+    }
+
     private async enhanceCommunitiesWithOwners(communities: Community[]): Promise<Community[]> {
         return await Promise.all(
             communities.map(async (community) => await this.enhanceCommunityWithOwner(community))
