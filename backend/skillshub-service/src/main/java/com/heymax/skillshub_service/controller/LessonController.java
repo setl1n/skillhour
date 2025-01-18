@@ -28,7 +28,6 @@ public class LessonController {
 
     @PostMapping
     public ResponseEntity<Lesson> createLesson(@RequestBody Lesson lesson) {
-        System.out.println("Controller received.");
         return ResponseEntity.ok(lessonService.createLesson(lesson));
     }
 
