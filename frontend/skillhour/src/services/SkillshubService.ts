@@ -12,6 +12,8 @@ export interface Lesson {
     location: string;
     studentIds: number[];
     state: 'FUTURE' | 'IN_PROGRESS' | 'ENDED';
+    reviewedStudents: number[];    // IDs of students who have been reviewed
+    teacherReviewers: number[];    // IDs of students who have reviewed the teacher
 }
 
 class SkillshubService {

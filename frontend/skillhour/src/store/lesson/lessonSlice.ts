@@ -20,9 +20,25 @@ const lessonSlice = createSlice({
             if (state.currentLesson) {
                 state.currentLesson.state = action.payload;
             }
+        },
+        addReviewedStudent: (state, action: PayloadAction<number>) => {
+            if (state.currentLesson) {
+                state.currentLesson.reviewedStudents.push(action.payload);
+            }
+        },
+        addTeacherReviewer: (state, action: PayloadAction<number>) => {
+            if (state.currentLesson) {
+                state.currentLesson.teacherReviewers.push(action.payload);
+            }
         }
     }
 });
 
-export const { setCurrentLesson, updateLessonState } = lessonSlice.actions;
+export const { 
+    setCurrentLesson, 
+    updateLessonState, 
+    addReviewedStudent, 
+    addTeacherReviewer 
+} = lessonSlice.actions;
+
 export default lessonSlice.reducer;

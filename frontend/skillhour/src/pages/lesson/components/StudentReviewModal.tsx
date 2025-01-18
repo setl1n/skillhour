@@ -8,7 +8,7 @@ interface StudentReviewModalProps {
     onClose: () => void;
     student: User;
     lessonId: string;  // Add this new prop
-    onConfirm: (studentId: string) => void;
+    onSubmitSuccess: (studentId: string) => void;  // Replace onConfirm with onSubmitSuccess
 }
 
 const StarRating = ({ rating, setRating, label }: { rating: number; setRating: (value: number) => void; label: string }) => {
@@ -30,7 +30,7 @@ const StarRating = ({ rating, setRating, label }: { rating: number; setRating: (
     );
 };
 
-const StudentReviewModal = ({ isOpen, onClose, student, lessonId, onConfirm }: StudentReviewModalProps) => {
+const StudentReviewModal = ({ isOpen, onClose, student, lessonId, onSubmitSuccess }: StudentReviewModalProps) => {
     const [overallScore, setOverallScore] = useState(0);
     const [attentiveScore, setAttentiveScore] = useState(0);
     const [participationScore, setParticipationScore] = useState(0);
@@ -46,7 +46,7 @@ const StudentReviewModal = ({ isOpen, onClose, student, lessonId, onConfirm }: S
                 participationScore,
                 comments
             });
-            onConfirm(student.id);
+            onSubmitSuccess(student.id);
             onClose();
         } catch (error) {
             console.error('Failed to submit review:', error);

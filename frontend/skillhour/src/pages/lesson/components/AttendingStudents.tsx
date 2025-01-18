@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import userService, { User , StudentReview } from '../../../services/UserService';
 import { RootState } from '../../../store/store';
+import { addReviewedStudent } from '../../../store/lesson/lessonSlice';
 import StudentReviewModal from './StudentReviewModal';
 interface AttendingStudentsProps {
     studentIds: number[];
@@ -9,6 +10,7 @@ interface AttendingStudentsProps {
 }
 
 const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) => {
+    const dispatch = useDispatch();
     const [students, setStudents] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedStudent, setSelectedStudent] = useState<User | null>(null);
@@ -38,10 +40,23 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
         return totalScore / reviews.length;
     };
 
-    const handleReviewStudent = async (studentId: string) => {
-        if (!currentLesson) return;
-        console.log('Reviewing student:', studentId, 'for lesson:', currentLesson.id);
-        setSelectedStudent(students.find(s => s.id === studentId) || null);
+    const refreshStudentData = async (studentId: string) => {
+        try {
+            const updatedStudent = await userService.getUser(studentId);
+            setStudents(prevStudents => 
+                prevStudents.map(student => 
+                    student.id === studentId ? updatedStudent : student
+                )
+            );
+        } catch (error) {
+            console.error('Failed to refresh student data:', error);
+        }
+    };
+
+    const handleReviewSubmitted = async (studentId: string) => {
+        dispatch(addReviewedStudent(Number(studentId)));
+        await refreshStudentData(studentId);
+        setSelectedStudent(null);
     };
 
     return (
@@ -55,6 +70,7 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
                 ) : (
                     students.map((student) => {
                         const averageRating = calculateAverageRating(student.studentReviews || []);
+                        const hasBeenReviewed = currentLesson?.reviewedStudents.includes(Number(student.id));
                         return (
                             <div 
                                 key={student.id}
@@ -73,7 +89,7 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
                                         </div>
                                     )}
                                 </div>
-                                {isInstructor && lessonState === 'ENDED' && (
+                                {isInstructor && lessonState === 'ENDED' && !hasBeenReviewed && (
                                     <button
                                         onClick={() => setSelectedStudent(student)}
                                         className="px-3 py-1 text-sm bg-primary text-white rounded-md 
@@ -81,6 +97,11 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
                                     >
                                         Review Student
                                     </button>
+                                )}
+                                {hasBeenReviewed && (
+                                    <span className="text-sm text-green-500">
+                                        ✓ Reviewed
+                                    </span>
                                 )}
                             </div>
                         );
@@ -93,7 +114,7 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
                     onClose={() => setSelectedStudent(null)}
                     student={selectedStudent}
                     lessonId={currentLesson.id.toString()}
-                    onConfirm={handleReviewStudent}
+                    onSubmitSuccess={handleReviewSubmitted}
                 />
             )}
         </div>

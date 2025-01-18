@@ -139,11 +139,18 @@ class UserService {
         });
     }
 
+    public async refreshUserData(userId: string): Promise<User> {
+        return this.request<User>(`/users/${userId}/refresh`, {
+            method: 'GET',
+        });
+    }
+
     public async createStudentReview(userId: string, lessonId: string, review: StudentReviewSubmission): Promise<StudentReview> {
-        return this.request<StudentReview>(`/reviews/student/${userId}/${lessonId}`, {
+        const response = await this.request<StudentReview>(`/reviews/student/${userId}/${lessonId}`, {
             method: 'POST',
             body: JSON.stringify(review),
         });
+        return response;
     }
 }
 
