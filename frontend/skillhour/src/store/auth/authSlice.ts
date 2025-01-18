@@ -4,6 +4,7 @@ import userService, { LoginCredentials, RegisterCredentials, UserResponse, User 
 interface AuthState {
     isAuthenticated: boolean;
     user: User | null;
+    token: string | null;
     loading: boolean;
     error: string | null;
 }
@@ -15,6 +16,7 @@ const storedUser = localStorage.getItem('user');
 const initialState: AuthState = {
     isAuthenticated: !!storedToken,
     user: storedUser ? JSON.parse(storedUser) : null,
+    token: storedToken ? storedToken : null,
     loading: false,
     error: null,
 };

@@ -6,6 +6,7 @@ import Header from './components/Header';
 import SkillsHub from './pages/skillshub/SkillsHub';
 import Profile from './pages/profile/Profile';
 import Lesson from './pages/lesson/Lesson';
+import "./utils/axiosSetup.js";
 
 function App() {
   return (
