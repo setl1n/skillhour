@@ -138,7 +138,7 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
 
     return (
         <div className="bg-surface/30 backdrop-blur-md rounded-xl p-6 shadow-sm">
-            <h1 className="text-3xl font-bold text-primary mb-4">{displayLesson.skillTaught}</h1>
+            <h1 className="text-2xl font-bold text-primary mb-4">{displayLesson.skillTaught}</h1>
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <span className={`px-4 py-2 rounded-lg text-sm font-medium ${displayLesson.isOnline
@@ -152,7 +152,7 @@ const LessonOverview = ({ lesson, onEnrollmentSuccess }: LessonOverviewProps) =>
                     </span>
                 </div>
 
-                <div className="space-y-4 text-lg">
+                <div className="space-y-4 text-base">
                     <div className="flex items-center gap-3">
                         <FaClock className="text-text/60" />
                         <div>

@@ -96,7 +96,7 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
     return (
         <div className="bg-surface/30 backdrop-blur-md rounded-xl p-6 shadow-sm">
             <h2 className="text-xl font-semibold mb-4">Attending Students</h2>
-            <div className="space-y-3">
+            <div className="space-y-3 overflow-y-auto h-80">
                 {loading ? (
                     <p className="text-text/60">Loading students...</p>
                 ) : students.length === 0 ? (
