@@ -15,7 +15,7 @@ public class Comment {
     private String body;
 
     @Column(nullable = false)
-    private Long postedBy;
+    private Long author;
 
     private long likes = 0;
     private long dislikes = 0;

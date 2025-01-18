@@ -20,6 +20,9 @@ public class Post {
     @Column(nullable = false, length = 1000)
     private String content;
 
+    @Column(nullable = false)
+    private Long author;
+
     private long likes = 0;
     private long dislikes = 0;
 

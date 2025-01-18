@@ -33,11 +33,12 @@ public class CommunitiesMicroserviceApplication {
             Post dataPost1 = new Post();
             dataPost1.setTitle("Getting Started with Pandas");
             dataPost1.setContent("Here are some resources to prepare for our first lesson...");
+            dataPost1.setAuthor(1L); // Set by community owner
             Post savedDataPost1 = communityService.createPost(savedDataCommunity.getId(), dataPost1);
 
             Comment dataComment1 = new Comment();
             dataComment1.setBody("Thanks for sharing! Very helpful.");
-            dataComment1.setPostedBy(2L);
+            dataComment1.setAuthor(2L);
             communityService.addComment(savedDataPost1.getId(), dataComment1);
 
             // Create Fitness Community
@@ -51,11 +52,12 @@ public class CommunitiesMicroserviceApplication {
             Post fitnessPost1 = new Post();
             fitnessPost1.setTitle("Gym Essentials Checklist");
             fitnessPost1.setContent("What to bring for your first gym session...");
+            fitnessPost1.setAuthor(2L); // Set by community owner
             Post savedFitnessPost1 = communityService.createPost(savedFitnessCommunity.getId(), fitnessPost1);
 
             Comment fitnessComment1 = new Comment();
             fitnessComment1.setBody("Should we bring our own towels?");
-            fitnessComment1.setPostedBy(1L);
+            fitnessComment1.setAuthor(1L);
             communityService.addComment(savedFitnessPost1.getId(), fitnessComment1);
 
             // Create Cooking Community
@@ -69,16 +71,17 @@ public class CommunitiesMicroserviceApplication {
             Post cookingPost1 = new Post();
             cookingPost1.setTitle("Ingredients List for Next Session");
             cookingPost1.setContent("Please prepare these ingredients before the class...");
+            cookingPost1.setAuthor(3L); // Set by community owner
             Post savedCookingPost1 = communityService.createPost(savedCookingCommunity.getId(), cookingPost1);
 
             Comment cookingComment1 = new Comment();
             cookingComment1.setBody("Can we substitute olive oil with vegetable oil?");
-            cookingComment1.setPostedBy(1L);
+            cookingComment1.setAuthor(1L);
             communityService.addComment(savedCookingPost1.getId(), cookingComment1);
 
             Comment cookingComment2 = new Comment();
             cookingComment2.setBody("Yes, that should work fine!");
-            cookingComment2.setPostedBy(3L);
+            cookingComment2.setAuthor(3L);
             communityService.addComment(savedCookingPost1.getId(), cookingComment2);
         };
     }
