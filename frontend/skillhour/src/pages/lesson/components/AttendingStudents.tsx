@@ -16,7 +16,7 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
     const [selectedStudent, setSelectedStudent] = useState<User | null>(null);
     const user = useSelector((state: RootState) => state.auth.user);
     const currentLesson = useSelector((state: RootState) => state.lesson.currentLesson);
-    const isInstructor = user && currentLesson?.instructorId === Number(user.id);
+    const isInstructor = user?.id && currentLesson?.instructorId === parseInt(user.id);
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -98,7 +98,7 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
                                         Review Student
                                     </button>
                                 )}
-                                {hasBeenReviewed && (
+                                {isInstructor && hasBeenReviewed && (
                                     <span className="text-sm text-green-500">
                                         ✓ Reviewed
                                     </span>
