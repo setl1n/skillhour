@@ -6,6 +6,7 @@ import { addReviewedStudent } from '../../../store/lesson/lessonSlice';
 import StudentReviewModal from './StudentReviewModal';
 import { updateTimeCredits } from '../../../store/auth/authSlice';
 import { toast } from 'react-toastify';
+import ViewProfile from '../../../components/ViewProfile';
 
 interface AttendingStudentsProps {
     studentIds: number[];
@@ -106,38 +107,40 @@ const AttendingStudents = ({ studentIds, lessonState }: AttendingStudentsProps) 
                         const averageRating = calculateAverageRating(student.studentReviews || []);
                         const hasBeenReviewed = currentLesson?.reviewedStudents.includes(Number(student.id));
                         return (
-                            <div 
-                                key={student.id}
-                                className="flex items-center gap-3 p-3 rounded-lg bg-surface/50"
-                            >
-                                <img 
-                                    src={`https://loremfaces.net/96/id/${student.id}.jpg`}
-                                    alt={student.username}
-                                    className="w-8 h-8 rounded-full object-cover"
-                                />
-                                <div className="flex-grow">
-                                    <div className="font-medium">{student.username}</div>
-                                    {averageRating !== null && (
-                                        <div className="text-sm text-text/60">
-                                            ⭐ {averageRating.toFixed(1)}
-                                        </div>
+                            <ViewProfile key={student.id} userId={student.id}>
+                                <div className="flex items-center gap-3 p-3 rounded-lg bg-surface/50 hover:bg-surface/70 transition-colors">
+                                    <img 
+                                        src={`https://loremfaces.net/96/id/${student.id}.jpg`}
+                                        alt={student.username}
+                                        className="w-8 h-8 rounded-full object-cover"
+                                    />
+                                    <div className="flex-grow">
+                                        <div className="font-medium">{student.username}</div>
+                                        {averageRating !== null && (
+                                            <div className="text-sm text-text/60">
+                                                ⭐ {averageRating.toFixed(1)}
+                                            </div>
+                                        )}
+                                    </div>
+                                    {isInstructor && lessonState === 'ENDED' && !hasBeenReviewed && (
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Prevent navigation when clicking the button
+                                                setSelectedStudent(student);
+                                            }}
+                                            className="px-3 py-1 text-sm bg-primary text-white rounded-md 
+                                                     hover:bg-primary/90 transition-colors"
+                                        >
+                                            Review Student
+                                        </button>
+                                    )}
+                                    {isInstructor && hasBeenReviewed && (
+                                        <span className="text-sm text-green-500">
+                                            ✓ Reviewed
+                                        </span>
                                     )}
                                 </div>
-                                {isInstructor && lessonState === 'ENDED' && !hasBeenReviewed && (
-                                    <button
-                                        onClick={() => setSelectedStudent(student)}
-                                        className="px-3 py-1 text-sm bg-primary text-white rounded-md 
-                                                 hover:bg-primary/90 transition-colors"
-                                    >
-                                        Review Student
-                                    </button>
-                                )}
-                                {isInstructor && hasBeenReviewed && (
-                                    <span className="text-sm text-green-500">
-                                        ✓ Reviewed
-                                    </span>
-                                )}
-                            </div>
+                            </ViewProfile>
                         );
                     })
                 )}

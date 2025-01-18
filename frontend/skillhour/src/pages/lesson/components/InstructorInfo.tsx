@@ -8,6 +8,7 @@ import { RootState } from '../../../store/store';
 import TeacherReviewModal from './TeacherReviewModal';
 import { addTeacherReviewer } from '../../../store/lesson/lessonSlice';
 import { TeacherReview } from '../../../services/UserService';
+import ViewProfile from '../../../components/ViewProfile';
 
 interface InstructorInfoProps {
     lesson: Lesson;
@@ -43,16 +44,18 @@ const InstructorInfo = ({ lesson }: InstructorInfoProps) => {
     return (
         <Card className="bg-surface/30 p-4 rounded-xl">
             <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-4">
-                    <img
-                        className="w-12 h-12 rounded-full object-cover"
-                        src={`https://loremfaces.net/96/id/${lesson.instructor.id}.jpg`}
-                        alt="Instructor"
-                    />
-                    <span className="font-medium">
-                        {lesson.instructor.username}
-                    </span>
-                </div>
+                <ViewProfile userId={lesson.instructor.id.toString()}>
+                    <div className="flex items-center gap-4 hover:bg-surface/50 p-2 rounded-lg transition-colors">
+                        <img
+                            className="w-12 h-12 rounded-full object-cover"
+                            src={`https://loremfaces.net/96/id/${lesson.instructor.id}.jpg`}
+                            alt="Instructor"
+                        />
+                        <span className="font-medium">
+                            {lesson.instructor.username}
+                        </span>
+                    </div>
+                </ViewProfile>
                 {canReviewInstructor && (
                     <button
                         onClick={() => setShowReviewModal(true)}

@@ -29,6 +29,7 @@ function App() {
                         <Routes>
                           <Route path="/" element={<SkillsHub />} />
                           <Route path="/profile" element={<Profile />} />
+                          <Route path="/profile/:userId" element={<Profile />} />
                           <Route path="/lesson/:id" element={<Lesson />} />
                           <Route path="/communities" element={<Communities />} />
                           <Route path="/communities/:id" element={<Community />} />

@@ -4,6 +4,7 @@ import { Comment } from '../../../services/CommunitiesService';
 import { formatDistanceToNow } from 'date-fns';
 import communitiesService from '../../../services/CommunitiesService';
 import { RootState } from '../../../store/store';
+import ViewProfile from '../../../components/ViewProfile';
 
 interface CommentsProps {
     postId: number;
@@ -41,19 +42,21 @@ const Comments = ({ postId, comments, onCommentAdded }: CommentsProps) => {
             <div className="space-y-4">
                 {comments.map((comment) => (
                     <div key={comment.id} className="bg-surface/20 backdrop-blur-md rounded-lg p-6">
-                        <div className="flex items-center gap-3 mb-3">
-                            <img
-                                src={`https://loremfaces.net/96/id/${comment.author}.jpg`}
-                                alt={comment.authorData?.username}
-                                className="w-8 h-8 rounded-full"
-                            />
-                            <div>
-                                <h3 className="font-semibold">{comment.authorData?.username}</h3>
-                                <p className="text-sm text-text/60">
-                                    {formatDistanceToNow(new Date(comment.postedOn), { addSuffix: true })}
-                                </p>
+                        <ViewProfile userId={comment.author.toString()}>
+                            <div className="flex items-center gap-3 mb-3 hover:bg-surface/50 p-2 rounded-lg transition-colors">
+                                <img
+                                    src={`https://loremfaces.net/96/id/${comment.author}.jpg`}
+                                    alt={comment.authorData?.username}
+                                    className="w-8 h-8 rounded-full"
+                                />
+                                <div>
+                                    <h3 className="font-semibold">{comment.authorData?.username}</h3>
+                                    <p className="text-sm text-text/60">
+                                        {formatDistanceToNow(new Date(comment.postedOn), { addSuffix: true })}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        </ViewProfile>
                         <p className="text-text/80">{comment.body}</p>
                     </div>
                 ))}

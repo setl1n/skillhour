@@ -5,6 +5,7 @@ import { Post } from '../../../services/CommunitiesService';
 import { formatDistanceToNow } from 'date-fns';
 import { RootState } from '../../../store/store';
 import { motion } from 'framer-motion';
+import ViewProfile from '../../../components/ViewProfile';
 
 interface ContentProps {
     post: Post;
@@ -47,19 +48,21 @@ const Content = ({ post }: ContentProps) => {
 
     return (
         <div className="bg-surface/30 backdrop-blur-md rounded-lg p-8">
-            <div className="flex items-center gap-4 mb-6">
-                <img 
-                    src={`https://loremfaces.net/96/id/${post.author}.jpg`}
-                    alt={post.authorData?.username}
-                    className="w-12 h-12 rounded-full"
-                />
-                <div>
-                    <h3 className="font-semibold">{post.authorData?.username}</h3>
-                    <p className="text-sm text-text/60">
-                        {formatDistanceToNow(new Date(post.postedOn), { addSuffix: true })}
-                    </p>
+            <ViewProfile userId={post.author.toString()}>
+                <div className="flex items-center gap-4 mb-6 hover:bg-surface/50 p-2 rounded-lg transition-colors">
+                    <img 
+                        src={`https://loremfaces.net/96/id/${post.author}.jpg`}
+                        alt={post.authorData?.username}
+                        className="w-12 h-12 rounded-full"
+                    />
+                    <div>
+                        <h3 className="font-semibold">{post.authorData?.username}</h3>
+                        <p className="text-sm text-text/60">
+                            {formatDistanceToNow(new Date(post.postedOn), { addSuffix: true })}
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </ViewProfile>
 
             <h1 className="text-3xl font-bold mb-6">{post.title}</h1>
             <p className="text-lg text-text/80 mb-8 leading-relaxed">{post.content}</p>
